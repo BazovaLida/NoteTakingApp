@@ -57,7 +57,7 @@
     </style>
   </head>
   <body>
-    <form id="log_form" onsubmit="setAction()">
+    <form method="post">
       <div class="container">
         <h1>Login</h1>
         <p>Please fill in this form to log in.</p>
@@ -65,11 +65,11 @@
 
         <p>
           <label for="email"><b>Email</b></label>
-          <input type="text" placeholder="Enter Email" name="email" id="email" required></p>
+          <input type="text" placeholder="Enter Email" name="username" id="email" required></p>
 
         <p>
           <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="psw" id="psw" required> </p>
+          <input type="password" placeholder="Enter Password" name="password" id="psw" required> </p>
 
         <button class="loginBtn" id="login_btn" type="submit">Log in</button>
       </div>
