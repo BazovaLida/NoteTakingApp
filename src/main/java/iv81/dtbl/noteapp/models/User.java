@@ -2,17 +2,23 @@ package iv81.dtbl.noteapp.models;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "user")
 public class User  {
 
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private String email;
     private String passHash;
     
     private String name;
     private String bio;
+
+    public User() {}
 
     public User(String uname, String Nemail, String NpassHash) {
         this.name = uname;

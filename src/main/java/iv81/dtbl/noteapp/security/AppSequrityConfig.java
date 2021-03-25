@@ -1,8 +1,10 @@
 package iv81.dtbl.noteapp.security;
 
+import iv81.dtbl.noteapp.security.service.AppUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -24,29 +26,49 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = pE;
     }
 
+    @Bean
+    public UserDetailsService mongoUserDetails() { return new AppUserDetailsService(passwordEncoder); }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        UserDetailsService uDS = mongoUserDetails();
+        auth
+                .userDetailsService(uDS)
+                .passwordEncoder(passwordEncoder);
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/login", "/register").permitAll()
+                .antMatchers("/", "/login", "/register", "/err").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/loggedin");
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/loggedin")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/");
     }
 
-    @Override
-    @Bean
-    protected UserDetailsService userDetailsService() {
-        UserDetails testUsr = User.builder()
-                .username("test@test.com")
-                .password(passwordEncoder.encode("1234"))
-                .roles("test")
-                .build();
-
-        return new InMemoryUserDetailsManager(testUsr);
-    }
+//    @Override
+//    @Bean
+//    protected UserDetailsService userDetailsService() {
+//        UserDetails testUsr = User.builder()
+//                .username("test@test.com")
+//                .password(passwordEncoder.encode("1234"))
+//                .roles("test")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(testUsr);
+//    }
 }
