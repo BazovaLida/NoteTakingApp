@@ -16,15 +16,15 @@ import java.net.http.HttpClient;
 @RequestMapping
 public class PageController {
 
-    //@GetMapping("/")
-    //public String index() { return "home"; }
+    @GetMapping("/")
+    public String index() { return "home_page.html"; }
+
     @Autowired
     private AppUserDetailsService userService;
 
 
     @GetMapping("/login")
-    public String login() {
-        return "login_form.html"; }
+    public String login() { return "login_form.html"; }
 
     @GetMapping("/register")
     public String register() { return "registration_form.html"; }
