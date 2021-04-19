@@ -76,36 +76,119 @@
     <p>Please fill in this form to create an account.</p>
     <hr>
 
-    <p>
-      <label for="email"><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" id="email" required>
-    </p>
+      <p>
+        <label for="email"><b>Email</b></label>
+        <p id="emailError" style="color:red;"></p>
+        <input type="text" placeholder="Enter Email" name="email" id="email"
+        onchange="checkEmail()" required></p>
 
-    <p>
-      <label for="Username"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="username" id="username" required>
-    </p>
+      <p>
+        <label for="Username"><b>Username</b></label>
+        <p id="usernameError" style="color:red;"></p>
+        <input type="text" placeholder="Enter Username" name="username" id="username"
+        onchange="checkUsername()" required></p>
 
-    <p>
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="password" id="psw" required>
-    </p>
+      <p>
+        <label for="psw"><b>Password</b></label>
+        <p id="password_Error" style="color:red;"></p>
+        <input type="password" placeholder="Enter Password" name="psw" id="psw"
+        onchange="checkPassLength()" required> </p>
 
-    <p>
-      <label for="psw-repeat"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
-    </p>
-    <hr>
+      <p>
+        <label for="psw-repeat"><b>Repeat Password</b></label>
+        <p id="password_MatchError" style="color:red;"></p>
+        <input type="password" placeholder="Repeat Password" name="psw-repeat"
+        id="psw-repeat" onchange="checkPassMatch()" required> </p>
+      <hr>
 
     <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-    <button type="submit" class="registerbtn">Register</button>
+    <button type="submit" class="registerbtn" id="reg_btn">Register</button>
   </div>
 
   <div class="container signin">
-    <p>Already have an account? <a href="#">Sign in</a>.</p>
+    <p>Already have an account? <a href="/login">Sign in</a>.</p>
   </div>
 </form>
 <script>
+    var emailIsValid = false;
+    var usernameIsValid = false;
+    var passIsValid = false;
+    var passMatch = false;
+
+      function checkEmail () {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const input = document.getElementById("email").value;
+
+        if(re.test(String(input).toLowerCase())){
+          emailIsValid = true;
+          document.getElementById('emailError').innerHTML = "";
+        } else{
+          document.getElementById('emailError').innerHTML = "Email is invalid.";
+        }
+        btnEnable();
+      }
+
+      function checkUsername () {
+        const input = document.getElementById("username").value;
+
+        if(input.length < 4){
+          document.getElementById('usernameError').innerHTML = "Username must be at least 4 characters.";
+        } else if(input.length > 16){
+          document.getElementById('usernameError').innerHTML = "Username must be less than 16 characters.";
+        } else{
+          document.getElementById('usernameError').innerHTML = "";
+          usernameIsValid = true;
+        }
+        btnEnable();
+      }
+
+      function checkPassLength () {
+        const input = document.getElementById("psw");
+
+        var lowerCaseLetters = /[a-z]/g;
+        var capitalLetters = /[A-Z]/g;
+        var numbers = /[0-9]/g;
+        if(!input.value.match(lowerCaseLetters)){
+          var msg = "Password must include lower case letters.";
+          document.getElementById('password_Error').innerHTML = msg;
+        } else if(!input.value.match(capitalLetters)){
+          var msg = "Password must include capital letters.";
+          document.getElementById('password_Error').innerHTML = msg;
+        } else if(!input.value.match(numbers)){
+          var msg = "Password must include numbers.";
+          document.getElementById('password_Error').innerHTML = msg;
+        } else if(input.value.length < 6){
+          var msg = "Password must be at least 6 characters.";
+          document.getElementById('password_Error').innerHTML = msg;
+        } else if(input.value.length > 30){
+          var msg = "Password must be less than 30 characters.";
+          document.getElementById('password_Error').innerHTML = msg;
+        } else {
+          document.getElementById('password_Error').innerHTML = "";
+          passIsValid = true;
+        }
+        checkPassMatch();
+      }
+
+      function checkPassMatch () {
+        const input1 = document.getElementById("psw");
+        const input2 = document.getElementById("psw-repeat");
+
+        if(input1.value != input2.value){
+          document.getElementById('password_MatchError').innerHTML = "Passwords doesn't much.";
+        } else {
+          document.getElementById('password_MatchError').innerHTML = "";
+          passMatch = true;
+        }
+        btnEnable();
+      }
+
+      function btnEnable(){
+          if(emailIsValid && usernameIsValid && passIsValid && passMatch)
+            document.getElementById('reg_btn').disabled = false;
+          else
+            document.getElementById('reg_btn').disabled = true;
+      }
 </script>
 </body>
 </html>

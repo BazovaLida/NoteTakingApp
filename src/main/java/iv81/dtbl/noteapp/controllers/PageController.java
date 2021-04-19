@@ -13,15 +13,19 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping
 public class PageController {
 
+<<<<<<< HEAD
     private DataValidator dataValidator = new DataValidator();
+=======
+    @GetMapping("/")
+    public String index() { return "home_page.html"; }
+>>>>>>> 61469e7d3520ec36dc99e3dd8eac451305d257ea
 
     @Autowired
     private AppUserDetailsService userService;
 
 
     @GetMapping("/login")
-    public String login() {
-        return "login_form.html"; }
+    public String login() { return "login_form.html"; }
 
     @GetMapping("/register")
     public String register() { return "registration_form.html"; }
