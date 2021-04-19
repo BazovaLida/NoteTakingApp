@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 @EnableWebSecurity
 public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
@@ -52,11 +54,14 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
                     .usernameParameter("email")
                     .passwordParameter("password")
                 .and()
+                .rememberMe()
+                    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(30))
+                .and()
                 .logout()
                     .logoutUrl("/logout")
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
+                    .deleteCookies("JSESSIONID", "remember-me")
                     .logoutSuccessUrl("/");
     }
 
