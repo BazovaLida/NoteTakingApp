@@ -2,20 +2,27 @@ package iv81.dtbl.noteapp.controllers;
 
 import iv81.dtbl.noteapp.events.OnRegistrationCompleteEvent;
 import iv81.dtbl.noteapp.models.User;
+import iv81.dtbl.noteapp.models.VerificationToken;
 import iv81.dtbl.noteapp.security.DataValidator;
 import iv81.dtbl.noteapp.security.service.AppUserDetailsService;
+import iv81.dtbl.noteapp.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 
 
 @Controller
 @RequestMapping
 public class PageController {
+
+    @Autowired
+    private IUserService service;
 
     private DataValidator dataValidator = new DataValidator();
 
@@ -56,6 +63,23 @@ public class PageController {
     @GetMapping("/err")
     public String errPage() {
         return "err.html";
+    }
+
+    @GetMapping("/registrationConfirm")
+    public RedirectView confirmRegistration(@RequestParam String token) {
+
+        VerificationToken verificationToken = service.getVerificationToken(token);
+        if(verificationToken == null) {
+            return new RedirectView("bad_token");
+        }
+        User user = service.getUser(token);
+        Calendar cal = Calendar.getInstance();
+        if((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            return new RedirectView("token_expired");
+        }
+        user.setEnabled(true);
+        service.saveRegisteredUser(user);
+        return new RedirectView("login");
     }
 
 }

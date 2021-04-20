@@ -19,8 +19,6 @@ public class RegistrationListener implements
     @Autowired
     private IUserService service;
     @Autowired
-    private MessageSource messages;
-    @Autowired
     private JavaMailSender mailSender;
 
     @Override
@@ -36,13 +34,14 @@ public class RegistrationListener implements
         String recipientAddress = user.getEmail();
         String subject = "Registration Confirmation";
         String confirmationUrl
-                = event.getAppUrl() + "/regitrationConfirm.html?token=" + token;
-        String message = messages.getMessage("message.regSucc", null, event.getLocale());
+                = event.getAppUrl() + "/registrationConfirm?token=" + token;
+        String message = "Please, follow the link to confirm registration for Noteapp.";
 
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
+        email.setFrom("test_post_nta@ukr.net");
         email.setSubject(subject);
-        email.setText(message + "\r\n" + "http://localhost:8080" + confirmationUrl);
+        email.setText(message + "\r\n" + "http://localhost:8088" + confirmationUrl);
         mailSender.send(email);
     }
 }
