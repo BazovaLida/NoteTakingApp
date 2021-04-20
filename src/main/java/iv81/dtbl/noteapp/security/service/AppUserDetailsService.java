@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class AppUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRep;
+    private UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -24,16 +24,16 @@ public class AppUserDetailsService implements UserDetailsService {
         this.passwordEncoder = pE;
     }
 
-    public User findUserByEmail(String email) { return userRep.findByEmail(email); }
+    public User findUserByEmail(String email) { return userRepo.findByEmail(email); }
 
     public void saveUser(User user) {
         user.setPassHash(passwordEncoder.encode(user.getPassHash()));
-        userRep.save(user);
+        userRepo.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRep.findByEmail(email);
+        User user = userRepo.findByEmail(email);
         if(user != null) {
             return buildUserForAuthentication(user, new ArrayList<GrantedAuthority>());
         } else {
@@ -42,6 +42,6 @@ public class AppUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails buildUserForAuthentication(User user, ArrayList<GrantedAuthority> grantedAuthorities) {
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassHash(), grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassHash(), user.isEnabled(), true, true, true, grantedAuthorities);
     }
 }

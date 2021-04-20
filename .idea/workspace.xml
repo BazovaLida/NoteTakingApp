@@ -23,7 +23,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b515cf0-77a9-4ef9-96ac-08c4ba3c12ae" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/components/NoteappAuthenticationFailureHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/RegistrationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/events/OnRegistrationCompleteEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/events/RegistrationListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/repositories/VerificationTokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/services/IUserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/72216709-d7ed-4b24-94ea-a0b3b033d3d6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72216709-d7ed-4b24-94ea-a0b3b033d3d6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/noteapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/noteapp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/models/VerificationToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/models/VerificationToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/service/AppUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/service/AppUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/login_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/login_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/registration_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/registration_form.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +53,7 @@
       <list>
         <option value="Enum" />
         <option value="HTML File" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -118,7 +137,9 @@
       <workItem from="1616660319177" duration="4174000" />
       <workItem from="1618221640437" duration="628000" />
       <workItem from="1618817351809" duration="109000" />
-      <workItem from="1618817547163" duration="8831000" />
+      <workItem from="1618817547163" duration="12368000" />
+      <workItem from="1618909492640" duration="629000" />
+      <workItem from="1618913390265" duration="4745000" />
     </task>
     <servers />
   </component>
@@ -142,42 +163,42 @@
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
     <state x="524" y="352" width="810" height="681" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.29.1920.1171@0.29.1920.1171" timestamp="1618844881457" />
-    <state x="751" y="295" width="384" height="587" key="#com.intellij.ide.util.MemberChooser" timestamp="1616577423545">
+    <state x="751" y="295" width="384" height="587" key="#com.intellij.ide.util.MemberChooser" timestamp="1618914061285">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state x="751" y="295" width="384" height="587" key="#com.intellij.ide.util.MemberChooser/0.29.1920.1171@0.29.1920.1171" timestamp="1616577423545" />
-    <state width="913" height="296" key="GridCell.Tab.0.bottom" timestamp="1618845082647">
+    <state x="751" y="295" width="384" height="587" key="#com.intellij.ide.util.MemberChooser/0.29.1920.1171@0.29.1920.1171" timestamp="1618914061285" />
+    <state width="1516" height="279" key="GridCell.Tab.0.bottom" timestamp="1618918469718">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="913" height="296" key="GridCell.Tab.0.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1618845082647" />
-    <state width="913" height="296" key="GridCell.Tab.0.center" timestamp="1618845082646">
+    <state width="1516" height="279" key="GridCell.Tab.0.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1618918469718" />
+    <state width="1516" height="279" key="GridCell.Tab.0.center" timestamp="1618918469718">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="913" height="296" key="GridCell.Tab.0.center/0.29.1920.1171@0.29.1920.1171" timestamp="1618845082646" />
-    <state width="913" height="296" key="GridCell.Tab.0.left" timestamp="1618845082645">
+    <state width="1516" height="279" key="GridCell.Tab.0.center/0.29.1920.1171@0.29.1920.1171" timestamp="1618918469718" />
+    <state width="1516" height="279" key="GridCell.Tab.0.left" timestamp="1618918469717">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="913" height="296" key="GridCell.Tab.0.left/0.29.1920.1171@0.29.1920.1171" timestamp="1618845082645" />
-    <state width="913" height="296" key="GridCell.Tab.0.right" timestamp="1618845082647">
+    <state width="1516" height="279" key="GridCell.Tab.0.left/0.29.1920.1171@0.29.1920.1171" timestamp="1618918469717" />
+    <state width="1516" height="279" key="GridCell.Tab.0.right" timestamp="1618918469718">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="913" height="296" key="GridCell.Tab.0.right/0.29.1920.1171@0.29.1920.1171" timestamp="1618845082647" />
-    <state width="1335" height="279" key="GridCell.Tab.1.bottom" timestamp="1618844522431">
+    <state width="1516" height="279" key="GridCell.Tab.0.right/0.29.1920.1171@0.29.1920.1171" timestamp="1618918469718" />
+    <state width="1516" height="279" key="GridCell.Tab.1.bottom" timestamp="1618918469719">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1335" height="279" key="GridCell.Tab.1.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1618844522431" />
-    <state width="1335" height="279" key="GridCell.Tab.1.center" timestamp="1618844522430">
+    <state width="1516" height="279" key="GridCell.Tab.1.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1618918469719" />
+    <state width="1516" height="279" key="GridCell.Tab.1.center" timestamp="1618918469719">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1335" height="279" key="GridCell.Tab.1.center/0.29.1920.1171@0.29.1920.1171" timestamp="1618844522430" />
-    <state width="1335" height="279" key="GridCell.Tab.1.left" timestamp="1618844522430">
+    <state width="1516" height="279" key="GridCell.Tab.1.center/0.29.1920.1171@0.29.1920.1171" timestamp="1618918469719" />
+    <state width="1516" height="279" key="GridCell.Tab.1.left" timestamp="1618918469719">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1335" height="279" key="GridCell.Tab.1.left/0.29.1920.1171@0.29.1920.1171" timestamp="1618844522430" />
-    <state width="1335" height="279" key="GridCell.Tab.1.right" timestamp="1618844522431">
+    <state width="1516" height="279" key="GridCell.Tab.1.left/0.29.1920.1171@0.29.1920.1171" timestamp="1618918469719" />
+    <state width="1516" height="279" key="GridCell.Tab.1.right" timestamp="1618918469719">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1335" height="279" key="GridCell.Tab.1.right/0.29.1920.1171@0.29.1920.1171" timestamp="1618844522431" />
+    <state width="1516" height="279" key="GridCell.Tab.1.right/0.29.1920.1171@0.29.1920.1171" timestamp="1618918469719" />
     <state width="1335" height="365" key="GridCell.Tab.2.bottom" timestamp="1618837261460">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
@@ -198,10 +219,10 @@
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
     <state width="256" height="477" key="HiddenNamespacesPopup/0.29.1920.1171@0.29.1920.1171" timestamp="1618844971669" />
-    <state x="986" y="228" width="934" height="688" key="Maven.ArtifactSearchDialog" timestamp="1616413806850">
+    <state x="679" y="221" width="934" height="688" key="Maven.ArtifactSearchDialog" timestamp="1618913790540">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state x="986" y="228" width="934" height="688" key="Maven.ArtifactSearchDialog/0.29.1920.1171@0.29.1920.1171" timestamp="1616413806849" />
+    <state x="679" y="221" width="934" height="688" key="Maven.ArtifactSearchDialog/0.29.1920.1171@0.29.1920.1171" timestamp="1618913790540" />
     <state x="725" y="237" width="1195" height="734" key="SettingsEditor" timestamp="1615805425224">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
@@ -216,7 +237,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java</url>
-          <line>47</line>
+          <line>56</line>
           <properties class="iv81.dtbl.noteapp.controllers.PageController" method="errPage">
             <option name="EMULATED" value="true" />
           </properties>
@@ -224,7 +245,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java</url>
-          <line>31</line>
+          <line>38</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
