@@ -91,7 +91,7 @@
       <p>
         <label for="psw"><b>Password</b></label>
         <p id="password_Error" style="color:red;"></p>
-        <input type="password" placeholder="Enter Password" name="psw" id="psw"
+        <input type="password" placeholder="Enter Password" name="password" id="psw"
         onchange="checkPassLength()" required> </p>
 
       <p>
@@ -106,7 +106,7 @@
   </div>
 
   <div class="container signin">
-    <p>Already have an account? <a href="#">Sign in</a>.</p>
+    <p>Already have an account? <a href="/login">Sign in</a>.</p>
   </div>
 </form>
 <script>
@@ -175,7 +175,7 @@
         const input2 = document.getElementById("psw-repeat");
 
         if(input1.value != input2.value){
-          document.getElementById('password_MatchError').innerHTML = "Passwords doesn't much.";
+          document.getElementById('password_MatchError').innerHTML = "Passwords don't match.";
         } else {
           document.getElementById('password_MatchError').innerHTML = "";
           passMatch = true;
