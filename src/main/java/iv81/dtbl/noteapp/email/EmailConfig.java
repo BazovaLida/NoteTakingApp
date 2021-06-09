@@ -1,4 +1,4 @@
-package iv81.dtbl.noteapp.config;
+package iv81.dtbl.noteapp.email;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

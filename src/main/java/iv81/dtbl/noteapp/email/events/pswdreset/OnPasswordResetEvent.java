@@ -1,16 +1,16 @@
-package iv81.dtbl.noteapp.events;
+package iv81.dtbl.noteapp.email.events.pswdreset;
 
 import iv81.dtbl.noteapp.models.User;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.Locale;
 
-public class OnRegistrationCompleteEvent extends ApplicationEvent {
+public class OnPasswordResetEvent extends ApplicationEvent {
     private String appUrl;
     private Locale locale;
     private User user;
 
-    public OnRegistrationCompleteEvent(
+    public OnPasswordResetEvent(
             User user, Locale locale, String appUrl) {
         super(user);
 

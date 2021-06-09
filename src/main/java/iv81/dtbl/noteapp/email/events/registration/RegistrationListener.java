@@ -1,11 +1,10 @@
-package iv81.dtbl.noteapp.events;
+package iv81.dtbl.noteapp.email.events.registration;
 
+import iv81.dtbl.noteapp.email.events.registration.OnRegistrationCompleteEvent;
 import iv81.dtbl.noteapp.models.User;
 import iv81.dtbl.noteapp.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;

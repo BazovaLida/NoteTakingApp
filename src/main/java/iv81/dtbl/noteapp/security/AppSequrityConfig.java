@@ -1,5 +1,6 @@
 package iv81.dtbl.noteapp.security;
 
+import iv81.dtbl.noteapp.security.handlers.SecurityErrorHandler;
 import iv81.dtbl.noteapp.security.service.AppUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,12 +9,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-//import iv81.dtbl.noteapp.models.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,6 +31,11 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService mongoUserDetails() { return new AppUserDetailsService(passwordEncoder); }
 
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         UserDetailsService uDS = mongoUserDetails();
@@ -44,7 +49,7 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/login", "/register", "/err", "/registrationConfirm*").permitAll()
+                .antMatchers("/", "/login", "/register", "/err", "/pswd_reset/**", "/pswd_reset_form").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -62,18 +67,15 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID", "remember-me")
-                    .logoutSuccessUrl("/");
+                    .logoutSuccessUrl("/")
+                .and()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                    .invalidSessionUrl("/logout")
+                    .maximumSessions(3)
+                    .maxSessionsPreventsLogin(false)
+                    .sessionRegistry(sessionRegistry())
+                .and()
+                .sessionAuthenticationFailureHandler(new SecurityErrorHandler());
     }
-
-//    @Override
-//    @Bean
-//    protected UserDetailsService userDetailsService() {
-//        UserDetails testUsr = User.builder()
-//                .username("test@test.com")
-//                .password(passwordEncoder.encode("1234"))
-//                .roles("test")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(testUsr);
-//    }
 }
