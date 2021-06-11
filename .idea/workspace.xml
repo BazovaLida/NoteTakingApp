@@ -23,21 +23,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b515cf0-77a9-4ef9-96ac-08c4ba3c12ae" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/config/EmailConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/72216709-d7ed-4b24-94ea-a0b3b033d3d6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72216709-d7ed-4b24-94ea-a0b3b033d3d6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_bson_4_1_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongodb_driver_core_4_1_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongodb_driver_sync_4_1_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_mongodb_2_4_3.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_3_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_activation_jakarta_activation_1_2_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_mail_jakarta_mail_1_6_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_bson_4_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongodb_driver_core_4_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongodb_driver_sync_4_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_mongodb_2_4_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_mail_2_4_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_session_spring_session_data_mongodb_2_4_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_5_3_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/no_access.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noteapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/noteapp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/NoteappApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/NoteappApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/RegistrationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/events/RegistrationListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/events/RegistrationListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/AppSequrityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/AppSequrityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/home_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/logged_in.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/logged_in.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,20 +226,20 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java</url>
-          <line>63</line>
-          <properties class="iv81.dtbl.noteapp.controllers.PageController" method="errPage">
+          <line>117</line>
+          <properties class="iv81.dtbl.noteapp.controllers.PageController">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/service/AppUserDetailsService.java</url>
-          <line>35</line>
+          <line>42</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java</url>
-          <line>70</line>
+          <line>123</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
