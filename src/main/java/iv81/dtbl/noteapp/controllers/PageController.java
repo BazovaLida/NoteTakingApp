@@ -9,16 +9,30 @@ import iv81.dtbl.noteapp.security.DataValidator;
 import iv81.dtbl.noteapp.security.service.AppUserDetailsService;
 import iv81.dtbl.noteapp.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.Optional;
+
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 
 @Controller
@@ -29,6 +43,11 @@ public class PageController {
     private IUserService service;
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private SessionRegistry sessionRegistry;
+
+    @Autowired
+    private AuthenticationManager authManager;
 
     private DataValidator dataValidator = new DataValidator();
 
@@ -38,7 +57,28 @@ public class PageController {
     ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/")
-    public String index() { return "home_page.html"; }
+    public String index(HttpServletRequest request) {
+        /*String sessionId = request.getSession().getId();
+        SessionInformation session = sessionRegistry.getSessionInformation(sessionId);
+        if (session != null && !session.isExpired()) {
+            Object principal = session.getPrincipal();
+            if (principal != null && principal instanceof String) {
+                UserDetails userDetails = userService.loadUserByUsername(session.getPrincipal().toString());
+                UsernamePasswordAuthenticationToken authReq
+                        = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword());
+                authReq.setAuthenticated(true);
+                //Authentication auth = authManager.authenticate(authReq);
+                Authentication auth = new Authentication();
+                SecurityContext sc = SecurityContextHolder.getContext();
+                sc.getAuthentication().getPrincipal();
+                sc.setAuthentication(auth);
+                HttpSession httpSession = request.getSession();
+                httpSession.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
+                return "forward:/loggedin";
+            }
+        }*/
+        return "home_page.html";
+    }
 
     @GetMapping("/login")
     public String login() { return "login_form.html"; }
@@ -91,8 +131,8 @@ public class PageController {
         } else {
             User usertoUpdate = existing.get();
             usertoUpdate.setPassHash(password);
+            usertoUpdate.setEnabled(true);
             userService.saveUser(usertoUpdate);
-
         }
         redirectView.setUrl("http://localhost:8088/login");
         redirectView.setHosts();
@@ -107,13 +147,29 @@ public class PageController {
             return new RedirectView("pswd_reset?err");
         }
         eventPublisher.publishEvent(new OnPasswordResetEvent(existing, request.getLocale(), request.getContextPath()));
-        return new RedirectView("login_form");
+        existing.setEnabled(false);
+        userService.saveUser(existing);
+        return new RedirectView("login");
     }
 
-    @RequestMapping("/loggedin")
-    public String logged_in() {
-        return "logged_in.html";
+    @GetMapping("/loggedin")
+    public RedirectView logged_in(HttpServletRequest request) {
+        RedirectView result = new RedirectView();
+        SecurityContext sc = (SecurityContext) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        Object pr = sc.getAuthentication().getPrincipal();
+        if (pr instanceof org.springframework.security.core.userdetails.User) {
+            org.springframework.security.core.userdetails.User userAuth = (org.springframework.security.core.userdetails.User) pr;
+            sessionRegistry.registerNewSession(request.getSession().getId(), userAuth.getUsername());
+            User user = userRepo.findByEmail(userAuth.getUsername());
+            result.setUrl("http://localhost:8088/loggedin/" + user.getId());
+            result.setHosts();
+            return result;
+        }
+        result.setUrl("http://localhost:8088/err");
+        result.setHosts();
+        return result;
     }
+
     @GetMapping("/err")
     public String errPage() {
         return "err.html";

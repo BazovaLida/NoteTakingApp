@@ -1,10 +1,8 @@
 package iv81.dtbl.noteapp.security.service;
 
 import iv81.dtbl.noteapp.repositories.UserRepository;
-import iv81.dtbl.noteapp.session.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,14 +17,10 @@ public class AppUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepo;
-    private SessionRegistry sessionRegistry;
     @Autowired
-    public void setSessionRegistry(SessionRegistry sessionRegistry) {
-        this.sessionRegistry = sessionRegistry;
-    }
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
+
     public AppUserDetailsService(PasswordEncoder pE) {
         this.passwordEncoder = pE;
     }

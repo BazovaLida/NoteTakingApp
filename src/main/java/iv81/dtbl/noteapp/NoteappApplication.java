@@ -56,4 +56,6 @@ public class NoteappApplication {
         listenerRegBean.setListener(new NoteAppSessionListener());
         return listenerRegBean;
     }
+
+
 }

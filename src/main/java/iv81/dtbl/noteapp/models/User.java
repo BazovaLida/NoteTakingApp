@@ -19,6 +19,16 @@ public class User  {
     private String name;
     private String bio;
 
+    public String getLastUsedPageId() {
+        return lastUsedPageId;
+    }
+
+    public void setLastUsedPageId(String lastUsedPageId) {
+        this.lastUsedPageId = lastUsedPageId;
+    }
+
+    private String lastUsedPageId;
+
     public User() {
         super();
         this.enabled=false;

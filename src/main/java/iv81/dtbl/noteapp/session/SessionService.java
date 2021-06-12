@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Service("expireUsereService")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionService {
@@ -44,6 +46,15 @@ public class SessionService {
                     }
                 }
             }
+        }
+    }
+
+    public void expireAllUserSessions(String email) {
+        List<SessionInformation> activeUserSessions = sessionRegistry.getAllSessions(email, false);
+        for (int i=0; i<activeUserSessions.size(); i++) {
+            SessionInformation session = activeUserSessions.get(i);
+            session.expireNow();
+            killExpiredSessionForSure(session.getSessionId());
         }
     }
 

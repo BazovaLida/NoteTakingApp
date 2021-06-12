@@ -1,8 +1,8 @@
 package iv81.dtbl.noteapp.email.events.pswdreset;
 
-import iv81.dtbl.noteapp.email.events.registration.OnRegistrationCompleteEvent;
 import iv81.dtbl.noteapp.models.User;
 import iv81.dtbl.noteapp.services.IUserService;
+import iv81.dtbl.noteapp.session.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,6 +19,8 @@ public class PasswordResetListener implements
     private IUserService service;
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private SessionService sessionService;
 
     @Override
     public void onApplicationEvent(OnPasswordResetEvent event) {
@@ -27,6 +29,7 @@ public class PasswordResetListener implements
 
     private void confirmRegistration(OnPasswordResetEvent event) {
         User user = event.getUser();
+        sessionService.expireAllUserSessions(user.getEmail());
         String token = UUID.randomUUID().toString();
         service.createVerificationToken(user, token);
 

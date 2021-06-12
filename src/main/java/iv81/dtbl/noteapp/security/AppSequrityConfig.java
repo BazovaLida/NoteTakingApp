@@ -3,18 +3,25 @@ package iv81.dtbl.noteapp.security;
 import iv81.dtbl.noteapp.security.handlers.SecurityErrorHandler;
 import iv81.dtbl.noteapp.security.service.AppUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
@@ -29,19 +36,26 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public UserDetailsService mongoUserDetails() { return new AppUserDetailsService(passwordEncoder); }
+    @Primary
+    public UserDetailsService mongoUserService() { return new AppUserDetailsService(passwordEncoder); }
 
     @Bean
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        UserDetailsService uDS = mongoUserDetails();
+    @Autowired
+    public void confGlobalAuthManager(AuthenticationManagerBuilder auth) throws Exception {
+        UserDetailsService uDS = mongoUserService();
         auth
                 .userDetailsService(uDS)
                 .passwordEncoder(passwordEncoder);
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
