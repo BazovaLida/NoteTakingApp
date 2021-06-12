@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editing page</title>
+    <style>
+        body { font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0;}
+
+        /* Navbar container */
+        .navbar {
+            overflow: hidden;
+            background-color: #165a62;
+        }
+        .navbar a {
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        a {
+            font-size: 16px;
+            color: #1b5962;
+            text-decoration: none;
+        }
+        .btn {float: right;}
+        .nb {float: left;}
+        .separator {
+            display: inline-block;
+            background: #dedede;
+            float: right;
+            height: 45px;
+            width: 1px;
+        }
+        /* Add a background color to navbar links on hover */
+        .btn:hover {
+            background-color: #d0e2e3;
+            color: black;
+        }
+        .page_container:hover {
+            background-color: #d0e2e3;
+        }
+        .page_container {
+            text-align: center;
+            padding: 8px 0px;
+        }
+
+        #file_area {
+            display: block;
+            float: right;
+            width: 100%;
+        }
+        #file {
+            margin-left: 201px;
+            margin-right: 96px;
+            clear-after: both;
+        }
+        #myNicPanel {
+            position: fixed;
+            width: 95px;
+            right: 0;
+            clear-after: both;
+        }
+        #file_list {
+            width: 200px;
+            margin-left: -200px;
+            background-color: #e7e7e7;
+            clear-after: both;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+
+    var main_editor;
+
+    bkLib.onDomLoaded(function() {
+        main_editor = new nicEditor();
+        main_editor.setPanel('myNicPanel');
+        main_editor.addInstance('file_area');
+        var startContent = document.getElementById("file_area").innerText;
+        main_editor.instanceById('file_area').setContent(startContent);
+        // main_editor.addEvent('blur', function(){
+        //     alert(main_editor.instanceById('area_everything').getContent());
+        //     var edited_text = main_editor.instanceById('area_everything').getContent();
+        // })
+    });
+
+    function changed(curr_id){
+        var edited_text = main_editor.instanceById(curr_id).getContent();
+        // alert(edited_text);
+        axios({
+            method: 'post',
+            url: '',
+            data: {
+                new_version: edited_text
+            }
+        });
+    }
+</script>
+
+<div class="navbar">
+    <a class="nb" th:text="${user.name}"></a>
+
+    <a class="btn">
+        <form action="logout" method="post">
+            Log out
+        </form></a>
+    <span class="separator"></span>
+
+    <a class="btn" >
+        Share page</a>
+
+    <!--        <a th:if="${author} == ${user.id}" th:text="Delete page">-->
+    <!--            <span class="separator"></span></a>-->
+</div>
+
+<div id="file">
+    <div oninput="changed(id)" id="file_area" th:text="${body}">
+    </div>
+    <div id="myNicPanel"></div>
+    <div id="file_list">
+        <div class = page_container>
+            <a href="../new_page"> Create new page </a></div>
+        <div class = page_container th:each="page: ${pages}">
+            <a th:href="@{../${page.id}}" th:id="${page.id}" th:text="${page.title}"><br></a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
