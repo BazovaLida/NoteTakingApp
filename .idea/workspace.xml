@@ -23,58 +23,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b515cf0-77a9-4ef9-96ac-08c4ba3c12ae" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/util/Element.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/72216709-d7ed-4b24-94ea-a0b3b033d3d6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72216709-d7ed-4b24-94ea-a0b3b033d3d6.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/noteapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/noteapp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/NoteappApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/NoteappApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/email/events/pswdreset/PasswordResetListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/email/events/pswdreset/PasswordResetListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/models/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/models/File.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/repositories/FileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/repositories/FileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/AppSequrityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/AppSequrityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/service/AppUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/service/AppUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/session/SessionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/session/SessionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/logged_in.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/no_access.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/no_access.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/downloaded_file.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/images/img_ex1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/images/img_ex2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/images/img_ex3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/NoteappApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/components/NoteappAuthenticationFailureHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/config/EmailConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/controllers/PageController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/events/OnRegistrationCompleteEvent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/events/RegistrationListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/models/File.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/models/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/models/VerificationToken.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/repositories/FileRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/repositories/UserRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/repositories/VerificationTokenRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/security/AppSequrityConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/security/DataValidator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/security/PasswordConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/security/service/AppUserDetailsService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/services/IUserService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/services/UserService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/util/ElementType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/iv81/dtbl/noteapp/util/FileElement.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/editor/edit_page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/err.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/home_page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/logged_in.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/login_form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/registration_form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/iv81/dtbl/noteapp/NoteappApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,9 +37,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="HTML File" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -204,54 +156,58 @@
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
     <state x="751" y="295" width="384" height="587" key="#com.intellij.ide.util.MemberChooser/0.29.1920.1171@0.29.1920.1171" timestamp="1618914061285" />
-    <state width="1878" height="427" key="GridCell.Tab.0.bottom" timestamp="1623501706162">
+    <state x="95" y="124" width="1730" height="981" key="DiffContextDialog" timestamp="1623516188114">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.0.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623501706162" />
-    <state width="1878" height="427" key="GridCell.Tab.0.center" timestamp="1623501706162">
+    <state x="95" y="124" width="1730" height="981" key="DiffContextDialog/0.29.1920.1171@0.29.1920.1171" timestamp="1623516188114" />
+    <state width="1878" height="392" key="GridCell.Tab.0.bottom" timestamp="1623516320155">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.0.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623501706162" />
-    <state width="1878" height="427" key="GridCell.Tab.0.left" timestamp="1623501706162">
+    <state width="1878" height="392" key="GridCell.Tab.0.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320155" />
+    <state width="1878" height="392" key="GridCell.Tab.0.center" timestamp="1623516320155">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.0.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623501706162" />
-    <state width="1878" height="427" key="GridCell.Tab.0.right" timestamp="1623501706162">
+    <state width="1878" height="392" key="GridCell.Tab.0.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320155" />
+    <state width="1878" height="392" key="GridCell.Tab.0.left" timestamp="1623516320155">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.0.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623501706162" />
-    <state width="1878" height="427" key="GridCell.Tab.1.bottom" timestamp="1623501706163">
+    <state width="1878" height="392" key="GridCell.Tab.0.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320155" />
+    <state width="1878" height="392" key="GridCell.Tab.0.right" timestamp="1623516320155">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.1.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623501706163" />
-    <state width="1878" height="427" key="GridCell.Tab.1.center" timestamp="1623501706163">
+    <state width="1878" height="392" key="GridCell.Tab.0.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320155" />
+    <state width="1878" height="392" key="GridCell.Tab.1.bottom" timestamp="1623516320156">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.1.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623501706163" />
-    <state width="1878" height="427" key="GridCell.Tab.1.left" timestamp="1623501706163">
+    <state width="1878" height="392" key="GridCell.Tab.1.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320156" />
+    <state width="1878" height="392" key="GridCell.Tab.1.center" timestamp="1623516320156">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.1.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623501706163" />
-    <state width="1878" height="427" key="GridCell.Tab.1.right" timestamp="1623501706163">
+    <state width="1878" height="392" key="GridCell.Tab.1.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320156" />
+    <state width="1878" height="392" key="GridCell.Tab.1.left" timestamp="1623516320156">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.1.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623501706163" />
-    <state width="1878" height="392" key="GridCell.Tab.2.bottom" timestamp="1623499428409">
+    <state width="1878" height="392" key="GridCell.Tab.1.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320156" />
+    <state width="1878" height="392" key="GridCell.Tab.1.right" timestamp="1623516320156">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.2.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623499428409" />
-    <state width="1878" height="392" key="GridCell.Tab.2.center" timestamp="1623499428403">
+    <state width="1878" height="392" key="GridCell.Tab.1.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320156" />
+    <state width="1878" height="392" key="GridCell.Tab.2.bottom" timestamp="1623516320157">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.2.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623499428403" />
-    <state width="1878" height="392" key="GridCell.Tab.2.left" timestamp="1623499428403">
+    <state width="1878" height="392" key="GridCell.Tab.2.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320157" />
+    <state width="1878" height="392" key="GridCell.Tab.2.center" timestamp="1623516320156">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.2.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623499428403" />
-    <state width="1878" height="392" key="GridCell.Tab.2.right" timestamp="1623499428408">
+    <state width="1878" height="392" key="GridCell.Tab.2.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320156" />
+    <state width="1878" height="392" key="GridCell.Tab.2.left" timestamp="1623516320156">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.2.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623499428408" />
+    <state width="1878" height="392" key="GridCell.Tab.2.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320156" />
+    <state width="1878" height="392" key="GridCell.Tab.2.right" timestamp="1623516320157">
+      <screen x="0" y="29" width="1920" height="1171" />
+    </state>
+    <state width="1878" height="392" key="GridCell.Tab.2.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623516320157" />
     <state width="256" height="477" key="HiddenNamespacesPopup" timestamp="1618844971669">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
@@ -281,11 +237,6 @@
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/service/AppUserDetailsService.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java</url>
           <line>123</line>
           <option name="timeStamp" value="9" />
@@ -299,6 +250,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java</url>
           <line>65</line>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/service/AppUserDetailsService.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

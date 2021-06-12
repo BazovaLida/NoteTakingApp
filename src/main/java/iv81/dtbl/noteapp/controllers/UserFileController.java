@@ -80,8 +80,7 @@ public class UserFileController {
                 model.addAttribute("rights", "ALL");
                 model.addAttribute("user", userFound);
                 model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
-                model.addAttribute("title", fileFound.getTitle());
-                model.addAttribute("body", fileFound.getBody());
+                model.addAttribute("file", fileFound);
                 return "logged_in";
             } else if (fileFound.getUsersIds().contains(uid)) {
                 userFound.setLastUsedPageId(fid);
@@ -89,8 +88,7 @@ public class UserFileController {
                 model.addAttribute("rights", "EDIT");
                 model.addAttribute("user", userFound);
                 model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
-                model.addAttribute("title", fileFound.getTitle());
-                model.addAttribute("body", fileFound.getBody());
+                model.addAttribute("file", fileFound);
                 return "logged_in";
             } else if (fileFound.isPublic()) {
                 userFound.setLastUsedPageId(fid);
@@ -98,8 +96,7 @@ public class UserFileController {
                 model.addAttribute("rights", "VIEW");
                 model.addAttribute("user", userFound);
                 model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
-                model.addAttribute("title", fileFound.getTitle());
-                model.addAttribute("body", fileFound.getBody());
+                model.addAttribute("file", fileFound);
                 return "logged_in";
             } else {
                 model.addAttribute("user", userFound);
@@ -110,26 +107,26 @@ public class UserFileController {
     }
 
     @PostMapping("/loggedin/{uid}/{fid}/title")
-    public void title_change(@RequestParam String title, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
+    public void title_change(@RequestParam String new_version, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
         Optional<File> file = fileRepo.findById(fid);
         Optional<User> user = userRepo.findById(uid);
         if (file.isPresent() && user.isPresent()) {
             File fileFound = file.get();
             if (fileFound.getAuthorId().equals(uid) || fileFound.getUsersIds().contains(uid)) {
-                fileFound.setTitle(title);
+                fileFound.setTitle(new_version);
                 fileRepo.save(fileFound);
             }
         }
     }
 
     @PostMapping("/loggedin/{uid}/{fid}/body")
-    public void body_change(@RequestParam String body, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
+    public void body_change(@RequestParam String new_version, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
         Optional<File> file = fileRepo.findById(fid);
         Optional<User> user = userRepo.findById(uid);
         if (file.isPresent() && user.isPresent()) {
             File fileFound = file.get();
             if (fileFound.getAuthorId().equals(uid) || fileFound.getUsersIds().contains(uid)) {
-                fileFound.setBody(body);
+                fileFound.setBody(new_version);
                 fileRepo.save(fileFound);
             }
         }
