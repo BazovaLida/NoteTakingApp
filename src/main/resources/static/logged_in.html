@@ -43,13 +43,18 @@
         }
         .page_container {
             text-align: center;
-            padding: 8px 0px;
+            padding: 8px 0;
         }
 
         #file_area {
             display: block;
             float: right;
             width: 100%;
+        }
+        #file_title {
+            align-content: center;
+            font-size: 26px;
+            padding: 8px 10px;
         }
         #file {
             margin-left: 201px;
@@ -80,19 +85,27 @@
     bkLib.onDomLoaded(function() {
         main_editor = new nicEditor();
         main_editor.setPanel('myNicPanel');
-        main_editor.addInstance('file_area');
-        // main_editor.addEvent('blur', function(){
-        //     alert(main_editor.instanceById('area_everything').getContent());
-        //     var edited_text = main_editor.instanceById('area_everything').getContent();
-        // })
+        main_editor.addInstance('file_title');
+        main_editor.addInstance('file_body');
+        main_editor.instanceById('file_title').setContent("Title ex from function")
+        main_editor.instanceById('file_body').setContent("Body ex from function")
     });
 
-    function changed(curr_id){
+    function changed_body(curr_id){
         var edited_text = main_editor.instanceById(curr_id).getContent();
-        // alert(edited_text);
         axios({
             method: 'post',
-            url: '',
+            url: '/body',
+            data: {
+                new_version: edited_text
+            }
+        });
+    }
+    function changed_title(curr_id){
+        var edited_text = main_editor.instanceById(curr_id).getContent();
+        axios({
+            method: 'post',
+            url: '/title',
             data: {
                 new_version: edited_text
             }
@@ -117,7 +130,13 @@
 </div>
 
 <div id="file">
-    <div oninput="changed(id)" id="file_area" th:text="${body}">
+    <div id="file_area">
+        <div oninput="changed_title(id)" id="file_title" th:text="${title}">
+             Title example
+        </div>
+        <div oninput="changed_body(id)" id="file_body" th:text="${body}">
+            <h2> Hello body_ex </h2>
+        </div>
     </div>
     <div id="myNicPanel"></div>
     <div id="file_list">
