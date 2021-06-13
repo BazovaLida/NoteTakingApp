@@ -78,34 +78,35 @@
 <body>
 <script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
 
     var main_editor;
 
     bkLib.onDomLoaded(function() {
         main_editor = new nicEditor();
         main_editor.setPanel('myNicPanel');
-        main_editor.addInstance('file_title');
         main_editor.addInstance('file_body');
-        main_editor.instanceById('file_title').setContent("Title ex from function")
-        main_editor.instanceById('file_body').setContent("Body ex from function")
+        var body = [[${file.body}]]
+        main_editor.instanceById('file_body').setContent(body);
     });
 
     function changed_body(curr_id){
         var edited_text = main_editor.instanceById(curr_id).getContent();
+        var post_url = window.location.href + '/body';
         axios({
             method: 'post',
-            url: '/body',
+            url: post_url,
             data: {
                 new_version: edited_text
             }
         });
     }
     function changed_title(curr_id){
-        var edited_text = main_editor.instanceById(curr_id).getContent();
+        var edited_text = document.getElementById('file_title').innerText;
+        var post_url = window.location.href + '/title';
         axios({
             method: 'post',
-            url: '/title',
+            url: post_url,
             data: {
                 new_version: edited_text
             }
@@ -131,11 +132,10 @@
 
 <div id="file">
     <div id="file_area">
-        <div oninput="changed_title(id)" id="file_title" th:text="${file.title}">
-             Title example
+        <div oninput="changed_title(id)" id="file_title" th:text="${file.title}" contenteditable="true">
         </div>
-        <div oninput="changed_body(id)" id="file_body" th:text="${file.body}">
-            <h2> Hello body_ex </h2>
+        <div oninput="changed_body(id)" id="file_body" th:inline="html">
+            [[${file.body}]]
         </div>
     </div>
     <div id="myNicPanel"></div>

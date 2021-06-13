@@ -35,9 +35,10 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = pE;
     }
 
-    @Bean
-    @Primary
-    public UserDetailsService mongoUserService() { return new AppUserDetailsService(passwordEncoder); }
+    /*@Bean
+    public AppUserDetailsService mongoUserService() { return new AppUserDetailsService(passwordEncoder); }*/
+    @Autowired
+    private AppUserDetailsService mongoUserService;
 
     @Bean
     public SessionRegistry sessionRegistry() {
@@ -46,7 +47,7 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void confGlobalAuthManager(AuthenticationManagerBuilder auth) throws Exception {
-        UserDetailsService uDS = mongoUserService();
+        UserDetailsService uDS = mongoUserService;
         auth
                 .userDetailsService(uDS)
                 .passwordEncoder(passwordEncoder);

@@ -9,30 +9,18 @@ import iv81.dtbl.noteapp.security.DataValidator;
 import iv81.dtbl.noteapp.security.service.AppUserDetailsService;
 import iv81.dtbl.noteapp.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.Optional;
-
-import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 
 @Controller
@@ -48,6 +36,8 @@ public class PageController {
 
     @Autowired
     private AuthenticationManager authManager;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private DataValidator dataValidator = new DataValidator();
 
@@ -58,49 +48,30 @@ public class PageController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request) {
-        /*String sessionId = request.getSession().getId();
-        SessionInformation session = sessionRegistry.getSessionInformation(sessionId);
-        if (session != null && !session.isExpired()) {
-            Object principal = session.getPrincipal();
-            if (principal != null && principal instanceof String) {
-                UserDetails userDetails = userService.loadUserByUsername(session.getPrincipal().toString());
-                UsernamePasswordAuthenticationToken authReq
-                        = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword());
-                authReq.setAuthenticated(true);
-                //Authentication auth = authManager.authenticate(authReq);
-                Authentication auth = new Authentication();
-                SecurityContext sc = SecurityContextHolder.getContext();
-                sc.getAuthentication().getPrincipal();
-                sc.setAuthentication(auth);
-                HttpSession httpSession = request.getSession();
-                httpSession.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
-                return "forward:/loggedin";
-            }
-        }*/
-        return "home_page.html";
+        return "home_page";
     }
 
     @GetMapping("/login")
-    public String login() { return "login_form.html"; }
+    public String login() { return "login_form"; }
 
     @GetMapping("/register")
-    public String register() { return "registration_form.html"; }
+    public String register() { return "registration_form"; }
 
     @GetMapping("/pswd_reset")
-    public String resetPswd() { return "pswd_reset_req.html"; }
+    public String resetPswd() { return "pswd_reset_req"; }
 
     @GetMapping("/pswd_reset/{id}/passwordResetConfirm")
     public String resetPswdPage(@PathVariable String id, @RequestParam String token) {
         VerificationToken verificationToken = service.getVerificationToken(token);
         if(verificationToken == null) {
-            return "forward:/bad_token.html";
+            return "bad_token";
         }
         User user = service.getUser(token);
         Calendar cal = Calendar.getInstance();
         if((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return "forward:/token_expired.html";
+            return "token_expired";
         }
-        return "forward:/pswd_reset_form.html";
+        return "pswd_reset_form";
     }
 
     @PostMapping("/register")
@@ -130,9 +101,11 @@ public class PageController {
             return redirectView;
         } else {
             User usertoUpdate = existing.get();
-            usertoUpdate.setPassHash(password);
-            usertoUpdate.setEnabled(true);
-            userService.saveUser(usertoUpdate);
+            if (dataValidator.emailPswdIsValid(usertoUpdate.getEmail(), password)) {
+                usertoUpdate.setPassHash(password);
+                usertoUpdate.setEnabled(true);
+                userService.saveUser(usertoUpdate);
+            }
         }
         redirectView.setUrl("http://localhost:8088/login");
         redirectView.setHosts();
@@ -148,7 +121,7 @@ public class PageController {
         }
         eventPublisher.publishEvent(new OnPasswordResetEvent(existing, request.getLocale(), request.getContextPath()));
         existing.setEnabled(false);
-        userService.saveUser(existing);
+        userRepo.save(existing);
         return new RedirectView("login");
     }
 
@@ -172,7 +145,7 @@ public class PageController {
 
     @GetMapping("/err")
     public String errPage() {
-        return "err.html";
+        return "err";
     }
 
     @GetMapping("/registrationConfirm")

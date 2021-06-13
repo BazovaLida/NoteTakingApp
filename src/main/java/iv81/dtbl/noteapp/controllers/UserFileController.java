@@ -76,7 +76,7 @@ public class UserFileController {
             User userFound = user.get();
             if (fileFound.getAuthorId().equals(uid)) {
                 userFound.setLastUsedPageId(fid);
-                userService.saveUser(userFound);
+                userRepo.save(userFound);
                 model.addAttribute("rights", "ALL");
                 model.addAttribute("user", userFound);
                 model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
@@ -84,7 +84,7 @@ public class UserFileController {
                 return "logged_in";
             } else if (fileFound.getUsersIds().contains(uid)) {
                 userFound.setLastUsedPageId(fid);
-                userService.saveUser(userFound);
+                userRepo.save(userFound);
                 model.addAttribute("rights", "EDIT");
                 model.addAttribute("user", userFound);
                 model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
@@ -92,7 +92,7 @@ public class UserFileController {
                 return "logged_in";
             } else if (fileFound.isPublic()) {
                 userFound.setLastUsedPageId(fid);
-                userService.saveUser(userFound);
+                userRepo.save(userFound);
                 model.addAttribute("rights", "VIEW");
                 model.addAttribute("user", userFound);
                 model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
@@ -107,28 +107,48 @@ public class UserFileController {
     }
 
     @PostMapping("/loggedin/{uid}/{fid}/title")
-    public void title_change(@RequestParam String new_version, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
+    public RedirectView title_change(@RequestBody String data, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
         Optional<File> file = fileRepo.findById(fid);
         Optional<User> user = userRepo.findById(uid);
+        RedirectView result = new RedirectView();
         if (file.isPresent() && user.isPresent()) {
+            data = data.substring(data.indexOf("\"new_version\":\"")+"\"new_version\":\"".length());
+            data = data.substring(0, data.indexOf("}")-1);
             File fileFound = file.get();
             if (fileFound.getAuthorId().equals(uid) || fileFound.getUsersIds().contains(uid)) {
-                fileFound.setTitle(new_version);
+                fileFound.setTitle(data);
                 fileRepo.save(fileFound);
             }
+            result.setUrl("http://localhost:8088/loggedin/" + uid + "/" + fid);
+            result.setHosts();
+            return result;
+        } else {
+            result.setUrl("http://localhost:8088/err");
+            result.setHosts();
+            return result;
         }
     }
 
     @PostMapping("/loggedin/{uid}/{fid}/body")
-    public void body_change(@RequestParam String new_version, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
+    public RedirectView body_change(@RequestBody String data, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
         Optional<File> file = fileRepo.findById(fid);
         Optional<User> user = userRepo.findById(uid);
+        RedirectView result = new RedirectView();
         if (file.isPresent() && user.isPresent()) {
+            data = data.substring(data.indexOf("\"new_version\":\"")+"\"new_version\":\"".length());
+            data = data.substring(0, data.indexOf("}")-1);
             File fileFound = file.get();
             if (fileFound.getAuthorId().equals(uid) || fileFound.getUsersIds().contains(uid)) {
-                fileFound.setBody(new_version);
+                fileFound.setBody(data);
                 fileRepo.save(fileFound);
             }
+            result.setUrl("http://localhost:8088/loggedin/" + uid + "/" + fid);
+            result.setHosts();
+            return result;
+        } else {
+            result.setUrl("http://localhost:8088/err");
+            result.setHosts();
+            return result;
         }
     }
 
