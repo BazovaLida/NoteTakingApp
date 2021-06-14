@@ -30,7 +30,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b515cf0-77a9-4ef9-96ac-08c4ba3c12ae" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/page_deleted.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/logged_in.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/logged_in.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login_form.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,15 +77,22 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/templates" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/templates" />
       <recent name="$PROJECT_DIR$/src/main/resources/static" />
@@ -88,6 +100,17 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="NoteappApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="noteapp" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="iv81.dtbl.noteapp.NoteappApplication" />
@@ -125,6 +148,8 @@
       <workItem from="1623569701243" duration="2451000" />
       <workItem from="1623574672982" duration="4306000" />
       <workItem from="1623607791444" duration="270000" />
+      <workItem from="1623661377595" duration="134000" />
+      <workItem from="1623661532219" duration="15192000" />
     </task>
     <servers />
   </component>
@@ -168,38 +193,38 @@
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
     <state x="63" y="302" width="1730" height="981" key="DiffContextDialog/0.29.1920.1171@0.29.1920.1171" timestamp="1623575034068" />
-    <state width="1878" height="427" key="GridCell.Tab.0.bottom" timestamp="1623608060074">
+    <state width="1878" height="276" key="GridCell.Tab.0.bottom" timestamp="1623689362996">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.0.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623608060074" />
-    <state width="1878" height="427" key="GridCell.Tab.0.center" timestamp="1623608060073">
+    <state width="1878" height="276" key="GridCell.Tab.0.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
+    <state width="1878" height="276" key="GridCell.Tab.0.center" timestamp="1623689362996">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.0.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623608060073" />
-    <state width="1878" height="427" key="GridCell.Tab.0.left" timestamp="1623608060073">
+    <state width="1878" height="276" key="GridCell.Tab.0.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
+    <state width="1878" height="276" key="GridCell.Tab.0.left" timestamp="1623689362995">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.0.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623608060073" />
-    <state width="1878" height="427" key="GridCell.Tab.0.right" timestamp="1623608060073">
+    <state width="1878" height="276" key="GridCell.Tab.0.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362995" />
+    <state width="1878" height="276" key="GridCell.Tab.0.right" timestamp="1623689362996">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.0.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623608060073" />
-    <state width="1878" height="427" key="GridCell.Tab.1.bottom" timestamp="1623608060074">
+    <state width="1878" height="276" key="GridCell.Tab.0.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
+    <state width="1878" height="276" key="GridCell.Tab.1.bottom" timestamp="1623689362996">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.1.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623608060074" />
-    <state width="1878" height="427" key="GridCell.Tab.1.center" timestamp="1623608060074">
+    <state width="1878" height="276" key="GridCell.Tab.1.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
+    <state width="1878" height="276" key="GridCell.Tab.1.center" timestamp="1623689362996">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.1.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623608060074" />
-    <state width="1878" height="427" key="GridCell.Tab.1.left" timestamp="1623608060074">
+    <state width="1878" height="276" key="GridCell.Tab.1.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
+    <state width="1878" height="276" key="GridCell.Tab.1.left" timestamp="1623689362996">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.1.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623608060074" />
-    <state width="1878" height="427" key="GridCell.Tab.1.right" timestamp="1623608060074">
+    <state width="1878" height="276" key="GridCell.Tab.1.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
+    <state width="1878" height="276" key="GridCell.Tab.1.right" timestamp="1623689362996">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="427" key="GridCell.Tab.1.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623608060074" />
+    <state width="1878" height="276" key="GridCell.Tab.1.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
     <state width="1878" height="392" key="GridCell.Tab.2.bottom" timestamp="1623578333163">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
@@ -224,14 +249,18 @@
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
     <state x="679" y="221" width="934" height="688" key="Maven.ArtifactSearchDialog/0.29.1920.1171@0.29.1920.1171" timestamp="1623499711611" />
-    <state x="725" y="237" width="1195" height="734" key="SettingsEditor" timestamp="1615805425224">
+    <state x="725" y="237" width="1195" height="734" key="SettingsEditor" timestamp="1623661509916">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state x="725" y="237" width="1195" height="734" key="SettingsEditor/0.29.1920.1171@0.29.1920.1171" timestamp="1615805425224" />
+    <state x="725" y="237" width="1195" height="734" key="SettingsEditor/0.29.1920.1171@0.29.1920.1171" timestamp="1623661509916" />
     <state x="735" y="473" width="369" height="224" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1618931662032">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
     <state x="735" y="473" width="369" height="224" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.29.1920.1171@0.29.1920.1171" timestamp="1618931662032" />
+    <state x="1031" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1623662641104">
+      <screen x="0" y="29" width="1920" height="1171" />
+    </state>
+    <state x="1031" y="230" width="672" height="678" key="search.everywhere.popup/0.29.1920.1171@0.29.1920.1171" timestamp="1623662641104" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

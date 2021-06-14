@@ -80,14 +80,22 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
 
-    var main_editor;
+    const main_editor = new nicEditor();
 
     bkLib.onDomLoaded(function() {
-        main_editor = new nicEditor();
+
         main_editor.setPanel('myNicPanel');
         main_editor.addInstance('file_body');
-        var body = [[${file.body}]]
+
+        var body = [[${file.body}]];
+        body = body.replaceAll("\\\"", "\"");
         main_editor.instanceById('file_body').setContent(body);
+
+        var title = [[${file.title}]];
+        title = title.replaceAll("\\n", "\n");
+        document.getElementById('file_title').innerText = title;
+        document.getElementById([[${file.id}]]).innerText = title;
+
     });
 
     function changed_body(curr_id){
@@ -111,6 +119,9 @@
                 new_version: edited_text
             }
         });
+
+        var title_in_list = document.getElementById([[${file.id}]]);
+        title_in_list.innerText = edited_text;
     }
 </script>
 
@@ -121,29 +132,42 @@
         <form action="logout" method="post">
             Log out
         </form></a>
-    <span class="separator"></span>
 
-    <a class="btn" >
-        Share page</a>
+    <div th:if='${rights == "ALL"}'>
+        <span class="separator"></span>
+        <a class="btn" >
+            Share page</a>
 
-    <!--        <a th:if="${author} == ${user.id}" th:text="Delete page">-->
-    <!--            <span class="separator"></span></a>-->
+        <span class="separator"></span>
+        <a class="btn" th:href="@{{id}/delete(id=${file.id})}">
+            Delete page </a>
+
+        <div th:if='${isPublic}'>
+            <span class="separator"></span>
+            <a class="btn" th:href="@{{id}/make_private(id=${file.id})}">
+                Make private </a>
+        </div>
+        <div th:unless='${isPublic}'>
+            <span class="separator"></span>
+            <a class="btn" th:href="@{{id}/make_public(id=${file.id})}">
+                Make public </a>
+        </div>
+    </div>
 </div>
 
 <div id="file">
     <div id="file_area">
         <div oninput="changed_title(id)" id="file_title" th:text="${file.title}" contenteditable="true">
         </div>
-        <div oninput="changed_body(id)" id="file_body" th:inline="html">
-            [[${file.body}]]
-        </div>
+        <div oninput="changed_body(id)" id="file_body" th:inline="html"></div>
     </div>
+
     <div id="myNicPanel"></div>
     <div id="file_list">
         <div class = page_container>
-            <a href="../new_page"> Create new page </a></div>
+            <a href="./new_page"> Create new page </a></div>
         <div class = page_container th:each="page: ${pages}">
-            <a th:href="@{../${page.id}}" th:text="${page.title}"><br></a>
+            <a th:href="@{./{id}(id=${page.id})}" th:text="${page.title}" th:id="${page.id}"><br></a>
         </div>
     </div>
 
