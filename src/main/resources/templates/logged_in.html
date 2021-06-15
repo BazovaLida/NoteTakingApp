@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Editing page</title>
     <style>
-        body { font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0;}
+        body {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            background-color: #e6e6e6;
+        }
 
         /* Navbar container */
         .navbar {
@@ -114,31 +118,43 @@
         }
     </style>
 </head>
-<body style="background-color: #e6e6e6;">
+<body>
 <script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
 
     const main_editor = new nicEditor();
+    const rights = [[${rights}]];
 
     bkLib.onDomLoaded(function() {
-
-        main_editor.setPanel('myNicPanel');
-        main_editor.addInstance('file_body');
-
-        var body = [[${file.body}]];
+        let body = [[${file.body}]];
+        let title = [[${file.title}]];
         body = body.replaceAll("\\\"", "\"");
-        main_editor.instanceById('file_body').setContent(body);
 
-        var title = [[${file.title}]];
-        document.getElementById('file_title').innerText = title;
-        document.getElementById([[${file.id}]]).innerText = title;
+        if(rights === 'VIEW') {
+            //show file_body and uneditable file_title
+            document.getElementById('file_body').innerText = body;
 
+        } else {
+            //show file_body, edit panel
+            main_editor.setPanel('myNicPanel');
+            main_editor.addInstance('file_body');
+            main_editor.instanceById('file_body').setContent(body);
+        }
+
+        let title_tag = document.getElementById('file_title');
+        title_tag.innerText = title;
+
+        if(rights === 'ALL') {
+            //editable file_title
+            title_tag.contentEditable = "true";
+        }
+        // document.getElementById([[${file.id}]]).innerText = title;
     });
 
     function changed_text(curr_id){
-        var edited_text;
-        var post_url;
+        let edited_text;
+        let post_url;
 
         if(curr_id === "file_title"){
             edited_text = document.getElementById(curr_id).innerText;
@@ -147,8 +163,13 @@
                 document.getElementById(curr_id).innerText = edited_text;
             }
 
-            var title_in_list = document.getElementById([[${file.id}]]);
-            title_in_list.innerText = edited_text;
+            if(rights === 'ALL') {
+                //editable file_title in file_list
+                if(edited_text.length > 20){
+                    edited_text = edited_text.substr(0, 20) + "..."
+                }
+                document.getElementById([[${file.id}]]).innerText = edited_text;
+            }
 
             post_url = window.location.href + '/title';
 
@@ -198,7 +219,7 @@
 
 <div id="file">
     <div id="file_area">
-        <div oninput="changed_text(id)" id="file_title" th:text="${file.title}" contenteditable="true">
+        <div oninput="changed_text(id)" id="file_title" th:text="${file.title}">
         </div>
         <div oninput="changed_text(id)" id="file_body" th:inline="html"></div>
     </div>
@@ -219,13 +240,14 @@
     <div class="share-content">
         <span class="close" onclick="closePopup()">&times;</span>
         <p id="share_text">Link to share with edit rights:</p>
-        <p id="editableLink"></p>
+        <p id="shareLink"></p>
         <button id="copyLinkBtn" onclick="copyShareLink()">Copy link</button>
     </div>
 </div>
 
 <script defer>
-    var popup = document.getElementById("sharePopup");
+    const popup = document.getElementById("sharePopup");
+
     // When the user clicks on (x), close the modal
     function closePopup() {
         popup.style.display = "none";
@@ -236,13 +258,11 @@
             popup.style.display = "none";
         }
     }
-    var link;
     function share(){
         axios.get(window.location.href + '/share')
             .then((response) => {
-                document.getElementById("editableLink").innerText = response;
+                document.getElementById("shareLink").innerText = response.data;
                 popup.style.display = "block";
-                link = response;
             }, (error) => {
                 document.getElementById("share_text").innerText = "An error occurred";
                 document.getElementById("copyLinkBtn").style.display = "none";
@@ -251,9 +271,13 @@
     }
 
     function copyShareLink(){
-        link.select();
-        link.setSelectionRange(0, 99999)
+        var link = document.getElementById("shareLink").innerText;
+        var elem = document.createElement("textarea");
+        document.body.appendChild(elem);
+        elem.value = link;
+        elem.select();
         document.execCommand("copy");
+        document.body.removeChild(elem);
     }
 </script>
 
