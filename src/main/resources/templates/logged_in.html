@@ -50,16 +50,19 @@
             display: block;
             float: right;
             width: 100%;
+            background-color: white;
         }
         #file_title {
             align-content: center;
             font-size: 26px;
             padding: 8px 10px;
         }
+        #file_body {
+            padding: 10px 20px;
+        }
         #file {
             margin-left: 201px;
             margin-right: 96px;
-            clear-after: both;
         }
         #myNicPanel {
             position: fixed;
@@ -70,12 +73,48 @@
         #file_list {
             width: 200px;
             margin-left: -200px;
-            background-color: #e7e7e7;
-            clear-after: both;
+            /*border-radius: 15px;*/
+        }
+
+        .share_window {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        /* Modal Content */
+        .share-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
-<body>
+<body style="background-color: #e6e6e6;">
 <script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
@@ -92,36 +131,39 @@
         main_editor.instanceById('file_body').setContent(body);
 
         var title = [[${file.title}]];
-        title = title.replaceAll("\\n", "\n");
         document.getElementById('file_title').innerText = title;
         document.getElementById([[${file.id}]]).innerText = title;
 
     });
 
-    function changed_body(curr_id){
-        var edited_text = main_editor.instanceById(curr_id).getContent();
-        var post_url = window.location.href + '/body';
-        axios({
-            method: 'post',
-            url: post_url,
-            data: {
-                new_version: edited_text
-            }
-        });
-    }
-    function changed_title(curr_id){
-        var edited_text = document.getElementById('file_title').innerText;
-        var post_url = window.location.href + '/title';
-        axios({
-            method: 'post',
-            url: post_url,
-            data: {
-                new_version: edited_text
-            }
-        });
+    function changed_text(curr_id){
+        var edited_text;
+        var post_url;
 
-        var title_in_list = document.getElementById([[${file.id}]]);
-        title_in_list.innerText = edited_text;
+        if(curr_id === "file_title"){
+            edited_text = document.getElementById(curr_id).innerText;
+            if(edited_text.includes("\n")){
+                edited_text = edited_text.replaceAll("\n", " ");
+                document.getElementById(curr_id).innerText = edited_text;
+            }
+
+            var title_in_list = document.getElementById([[${file.id}]]);
+            title_in_list.innerText = edited_text;
+
+            post_url = window.location.href + '/title';
+
+        } else if(curr_id === "file_body"){
+            edited_text = main_editor.instanceById(curr_id).getContent();
+            post_url = window.location.href + '/body';
+        }
+
+        axios({
+            method: 'post',
+            url: post_url,
+            data: {
+                new_version: edited_text
+            }
+        });
     }
 </script>
 
@@ -135,7 +177,7 @@
 
     <div th:if='${rights == "ALL"}'>
         <span class="separator"></span>
-        <a class="btn" >
+        <a class="btn" onclick="share()">
             Share page</a>
 
         <span class="separator"></span>
@@ -157,9 +199,9 @@
 
 <div id="file">
     <div id="file_area">
-        <div oninput="changed_title(id)" id="file_title" th:text="${file.title}" contenteditable="true">
+        <div oninput="changed_text(id)" id="file_title" th:text="${file.title}" contenteditable="true">
         </div>
-        <div oninput="changed_body(id)" id="file_body" th:inline="html"></div>
+        <div oninput="changed_text(id)" id="file_body" th:inline="html"></div>
     </div>
 
     <div id="myNicPanel"></div>
@@ -169,8 +211,52 @@
         <div class = page_container th:each="page: ${pages}">
             <a th:href="@{./{id}(id=${page.id})}" th:text="${page.title}" th:id="${page.id}"><br></a>
         </div>
+        <div style=""></div>
     </div>
 
 </div>
+
+<div id="sharePopup" class="share_window">
+    <div class="share-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <p id="share_text">Link to share with edit rights:</p>
+        <p id="editableLink"></p>
+        <button id="copyLinkBtn" onclick="copyShareLink()">Copy link</button>
+    </div>
+</div>
+
+<script defer>
+    var popup = document.getElementById("sharePopup");
+    // When the user clicks on (x), close the modal
+    function closePopup() {
+        popup.style.display = "none";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == popup) {
+            popup.style.display = "none";
+        }
+    }
+    var link;
+    function share(){
+        axios.get(window.location.href + '/share')
+            .then((response) => {
+                document.getElementById("editableLink").innerText = response;
+                popup.style.display = "block";
+                link = response;
+            }, (error) => {
+                document.getElementById("share_text").innerText = "An error occurred";
+                document.getElementById("copyLinkBtn").style.display = "none";
+                popup.style.display = "block";
+            });
+    }
+
+    function copyShareLink(){
+        link.select();
+        link.setSelectionRange(0, 99999)
+        document.execCommand("copy");
+    }
+</script>
+
 </body>
 </html>
