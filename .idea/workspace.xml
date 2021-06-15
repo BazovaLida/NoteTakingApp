@@ -30,12 +30,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b515cf0-77a9-4ef9-96ac-08c4ba3c12ae" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/page_deleted.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/logged_in.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/logged_in.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/page_deleted.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/page_deleted.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +83,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -100,17 +100,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="NoteappApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="noteapp" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="iv81.dtbl.noteapp.NoteappApplication" />
@@ -149,7 +138,8 @@
       <workItem from="1623574672982" duration="4306000" />
       <workItem from="1623607791444" duration="270000" />
       <workItem from="1623661377595" duration="134000" />
-      <workItem from="1623661532219" duration="15192000" />
+      <workItem from="1623661532219" duration="15634000" />
+      <workItem from="1623760866685" duration="4479000" />
     </task>
     <servers />
   </component>
@@ -193,54 +183,54 @@
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
     <state x="63" y="302" width="1730" height="981" key="DiffContextDialog/0.29.1920.1171@0.29.1920.1171" timestamp="1623575034068" />
-    <state width="1878" height="276" key="GridCell.Tab.0.bottom" timestamp="1623689362996">
+    <state width="1878" height="461" key="GridCell.Tab.0.bottom" timestamp="1623767331094">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.0.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
-    <state width="1878" height="276" key="GridCell.Tab.0.center" timestamp="1623689362996">
+    <state width="1878" height="461" key="GridCell.Tab.0.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623767331094" />
+    <state width="1878" height="461" key="GridCell.Tab.0.center" timestamp="1623767331093">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.0.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
-    <state width="1878" height="276" key="GridCell.Tab.0.left" timestamp="1623689362995">
+    <state width="1878" height="461" key="GridCell.Tab.0.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623767331093" />
+    <state width="1878" height="461" key="GridCell.Tab.0.left" timestamp="1623767331093">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.0.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362995" />
-    <state width="1878" height="276" key="GridCell.Tab.0.right" timestamp="1623689362996">
+    <state width="1878" height="461" key="GridCell.Tab.0.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623767331093" />
+    <state width="1878" height="461" key="GridCell.Tab.0.right" timestamp="1623767331093">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.0.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
-    <state width="1878" height="276" key="GridCell.Tab.1.bottom" timestamp="1623689362996">
+    <state width="1878" height="461" key="GridCell.Tab.0.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623767331093" />
+    <state width="1878" height="461" key="GridCell.Tab.1.bottom" timestamp="1623767331095">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.1.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
-    <state width="1878" height="276" key="GridCell.Tab.1.center" timestamp="1623689362996">
+    <state width="1878" height="461" key="GridCell.Tab.1.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623767331095" />
+    <state width="1878" height="461" key="GridCell.Tab.1.center" timestamp="1623767331094">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.1.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
-    <state width="1878" height="276" key="GridCell.Tab.1.left" timestamp="1623689362996">
+    <state width="1878" height="461" key="GridCell.Tab.1.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623767331094" />
+    <state width="1878" height="461" key="GridCell.Tab.1.left" timestamp="1623767331094">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.1.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
-    <state width="1878" height="276" key="GridCell.Tab.1.right" timestamp="1623689362996">
+    <state width="1878" height="461" key="GridCell.Tab.1.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623767331094" />
+    <state width="1878" height="461" key="GridCell.Tab.1.right" timestamp="1623767331094">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.1.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623689362996" />
-    <state width="1878" height="392" key="GridCell.Tab.2.bottom" timestamp="1623578333163">
+    <state width="1878" height="461" key="GridCell.Tab.1.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623767331094" />
+    <state width="1878" height="392" key="GridCell.Tab.2.bottom" timestamp="1623764462979">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.2.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623578333163" />
-    <state width="1878" height="392" key="GridCell.Tab.2.center" timestamp="1623578333162">
+    <state width="1878" height="392" key="GridCell.Tab.2.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623764462979" />
+    <state width="1878" height="392" key="GridCell.Tab.2.center" timestamp="1623764462979">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.2.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623578333162" />
-    <state width="1878" height="392" key="GridCell.Tab.2.left" timestamp="1623578333162">
+    <state width="1878" height="392" key="GridCell.Tab.2.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623764462979" />
+    <state width="1878" height="392" key="GridCell.Tab.2.left" timestamp="1623764462977">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.2.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623578333162" />
-    <state width="1878" height="392" key="GridCell.Tab.2.right" timestamp="1623578333162">
+    <state width="1878" height="392" key="GridCell.Tab.2.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623764462977" />
+    <state width="1878" height="392" key="GridCell.Tab.2.right" timestamp="1623764462979">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.2.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623578333162" />
+    <state width="1878" height="392" key="GridCell.Tab.2.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623764462979" />
     <state width="256" height="477" key="HiddenNamespacesPopup" timestamp="1618844971669">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
@@ -267,7 +257,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java</url>
-          <line>109</line>
+          <line>127</line>
           <properties class="iv81.dtbl.noteapp.controllers.PageController">
             <option name="EMULATED" value="true" />
           </properties>
@@ -275,12 +265,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java</url>
-          <line>115</line>
+          <line>133</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java</url>
-          <line>33</line>
+          <line>34</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -290,13 +280,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java</url>
-          <line>133</line>
-          <option name="timeStamp" value="13" />
+          <line>79</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java</url>
-          <line>78</line>
-          <option name="timeStamp" value="15" />
+          <line>166</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

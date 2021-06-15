@@ -6,6 +6,7 @@ import iv81.dtbl.noteapp.models.User;
 import iv81.dtbl.noteapp.repositories.FileRepository;
 import iv81.dtbl.noteapp.repositories.UserRepository;
 import iv81.dtbl.noteapp.security.service.AppUserDetailsService;
+import iv81.dtbl.noteapp.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.session.SessionRegistry;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class UserFileController {
@@ -28,6 +31,8 @@ public class UserFileController {
     private SessionRegistry sessionRegistry;
     @Autowired
     private AppUserDetailsService userService;
+    @Autowired
+    private IUserService service;
 
     @GetMapping("/loggedin/{uid}")
     public RedirectView choosefile(@PathVariable String uid, HttpServletRequest request) {
@@ -107,10 +112,10 @@ public class UserFileController {
     }
 
     @PostMapping("/loggedin/{uid}/{fid}/title")
-    public RedirectView title_change(@RequestBody String data, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
+    @ResponseBody
+    public void title_change(@RequestBody String data, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
         Optional<File> file = fileRepo.findById(fid);
         Optional<User> user = userRepo.findById(uid);
-        RedirectView result = new RedirectView();
         if (file.isPresent() && user.isPresent()) {
             data = data.substring(data.indexOf("\"new_version\":\"")+"\"new_version\":\"".length());
             data = data.substring(0, data.indexOf("}")-1);
@@ -119,7 +124,39 @@ public class UserFileController {
                 fileFound.setTitle(data);
                 fileRepo.save(fileFound);
             }
-            result.setUrl("http://localhost:8088/loggedin/" + uid + "/" + fid);
+        }
+    }
+
+    @PostMapping("/loggedin/{uid}/{fid}/body")
+    @ResponseBody
+    public void body_change(@RequestBody String data, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
+        Optional<File> file = fileRepo.findById(fid);
+        Optional<User> user = userRepo.findById(uid);
+        if (file.isPresent() && user.isPresent()) {
+            data = data.substring(data.indexOf("\"new_version\":\"")+"\"new_version\":\"".length());
+            data = data.substring(0, data.indexOf("}")-1);
+            File fileFound = file.get();
+            if (fileFound.getAuthorId().equals(uid) || fileFound.getUsersIds().contains(uid)) {
+                fileFound.setBody(data);
+                fileRepo.save(fileFound);
+            }
+        }
+    }
+
+    @GetMapping("/loggedin/{uid}/{fid}/delete")
+    public RedirectView deletePage(@PathVariable String uid, @PathVariable String fid) {
+        Optional<File> file = fileRepo.findById(fid);
+        Optional<User> user = userRepo.findById(uid);
+        RedirectView result = new RedirectView();
+        if (file.isPresent() && user.isPresent()) {
+            File fileFound = file.get();
+            if (fileFound.getAuthorId().equals(uid)) {
+                fileFound.setAuthorId(null);
+                fileFound.setPublic(false);
+                fileFound.removeUsers(fileFound.getUsersIds());
+                fileRepo.save(fileFound);
+            }
+            result.setUrl("http://localhost:8088/loggedin/" + uid + "/page_deleted");
             result.setHosts();
             return result;
         } else {
@@ -129,17 +166,15 @@ public class UserFileController {
         }
     }
 
-    @PostMapping("/loggedin/{uid}/{fid}/body")
-    public RedirectView body_change(@RequestBody String data, @PathVariable String uid, @PathVariable String fid, HttpServletRequest request) {
+    @GetMapping("/loggedin/{uid}/{fid}/make_public")
+    public RedirectView publicPage(@PathVariable String uid, @PathVariable String fid) {
         Optional<File> file = fileRepo.findById(fid);
         Optional<User> user = userRepo.findById(uid);
         RedirectView result = new RedirectView();
         if (file.isPresent() && user.isPresent()) {
-            data = data.substring(data.indexOf("\"new_version\":\"")+"\"new_version\":\"".length());
-            data = data.substring(0, data.indexOf("}")-1);
             File fileFound = file.get();
-            if (fileFound.getAuthorId().equals(uid) || fileFound.getUsersIds().contains(uid)) {
-                fileFound.setBody(data);
+            if (fileFound.getAuthorId().equals(uid)) {
+                fileFound.setPublic(true);
                 fileRepo.save(fileFound);
             }
             result.setUrl("http://localhost:8088/loggedin/" + uid + "/" + fid);
@@ -152,4 +187,77 @@ public class UserFileController {
         }
     }
 
+    @GetMapping("/loggedin/{uid}/{fid}/make_private")
+    public RedirectView privatePage(@PathVariable String uid, @PathVariable String fid) {
+        Optional<File> file = fileRepo.findById(fid);
+        Optional<User> user = userRepo.findById(uid);
+        RedirectView result = new RedirectView();
+        if (file.isPresent() && user.isPresent()) {
+            File fileFound = file.get();
+            if (fileFound.getAuthorId().equals(uid)) {
+                fileFound.setPublic(false);
+                fileRepo.save(fileFound);
+            }
+            result.setUrl("http://localhost:8088/loggedin/" + uid + "/" + fid);
+            result.setHosts();
+            return result;
+        } else {
+            result.setUrl("http://localhost:8088/err");
+            result.setHosts();
+            return result;
+        }
+    }
+
+    @GetMapping("/loggedin/{uid}/page_deleted")
+    public String pageDeleted(@PathVariable String uid, Model model) {
+        Optional<User> user = userRepo.findById(uid);
+        if (user.isPresent()) {
+            User userFound = user.get();
+            List<File> userFiles = fileRepo.findAllByAuthorId(uid);
+            model.addAttribute("user", userFound);
+            model.addAttribute("pages", userFiles);
+            return "page_deleted";
+        } else {
+            return "errorpage";
+        }
+    }
+
+    @GetMapping("/loggedin/{uid}/new_page")
+    public RedirectView new_page(@PathVariable String uid) {
+        RedirectView result = new RedirectView();
+        Optional<User> user = userRepo.findById(uid);
+        if (user.isPresent()) {
+            User userFound = user.get();
+            File newFile = new File("Untitled", userFound.getId(), null);
+            fileRepo.save(newFile);
+            result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + newFile.getId());
+            result.setHosts();
+            return result;
+        } else {
+            result.setUrl("http://localhost:8088/err");
+            result.setHosts();
+            return result;
+        }
+    }
+
+    @GetMapping("/loggedin/{uid}/{fid}/share")
+    @ResponseBody
+    public String share_page(@PathVariable String uid, @PathVariable String fid) {
+        Optional<File> file = fileRepo.findById(fid);
+        Optional<User> user = userRepo.findById(uid);
+        if (file.isPresent() && user.isPresent()) {
+            File fileFound = file.get();
+            User userFound = user.get();
+            if (fileFound.getAuthorId().equals(uid)) {
+                String token = UUID.randomUUID().toString();
+                service.createVerificationToken(userFound, token);
+                String sharelink = "localhost:8088/shared/" + fid + "?token=" + token;
+                return sharelink;
+            } else {
+                return "";
+            }
+        } else {
+            return "";
+        }
+    }
 }

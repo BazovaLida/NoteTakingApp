@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,24 @@ public class PageController {
     ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
+    public RedirectView index(HttpServletRequest request) {
+        RedirectView redirectView = new RedirectView();
+        String sessionID = request.getSession().getId();
+        SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
+        if (sessionInfo != null) {
+            String email = sessionInfo.getPrincipal().toString();
+            User userFound = userRepo.findByEmail(email);
+            redirectView.setUrl("http://localhost:8088/loggedin/" + userFound.getId());
+            redirectView.setHosts();
+        } else {
+            redirectView.setUrl("http://localhost:8088/home");
+            redirectView.setHosts();
+        }
+        return redirectView;
+    }
+
+    @GetMapping ("/home")
+    public String home() {
         return "home_page";
     }
 

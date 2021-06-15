@@ -128,10 +128,9 @@
 <div class="navbar">
     <a class="nb" th:text="${user.name}"></a>
 
-    <a class="btn">
-        <form action="logout" method="post">
+    <a class="btn" href="/logout">
             Log out
-        </form></a>
+        </a>
 
     <div th:if='${rights == "ALL"}'>
         <span class="separator"></span>
@@ -142,12 +141,12 @@
         <a class="btn" th:href="@{{id}/delete(id=${file.id})}">
             Delete page </a>
 
-        <div th:if='${isPublic}'>
+        <div th:if='${file.isPublic}'>
             <span class="separator"></span>
             <a class="btn" th:href="@{{id}/make_private(id=${file.id})}">
                 Make private </a>
         </div>
-        <div th:unless='${isPublic}'>
+        <div th:unless='${file.isPublic}'>
             <span class="separator"></span>
             <a class="btn" th:href="@{{id}/make_public(id=${file.id})}">
                 Make public </a>
