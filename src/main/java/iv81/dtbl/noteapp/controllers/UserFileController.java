@@ -293,8 +293,10 @@ public class UserFileController {
             if (sessionInfo != null) {
                 String email = sessionInfo.getPrincipal().toString();
                 User userFound = userRepo.findByEmail(email);
-                fileFound.addUser(userFound.getId());
-                fileRepo.save(fileFound);
+                if (!fileFound.getAuthorId().equals(userFound.getId()) && !fileFound.getUsersIds().contains(userFound.getId())) {
+                    fileFound.addUser(userFound.getId());
+                    fileRepo.save(fileFound);
+                }
                 redirectView.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + fid);
                 redirectView.setHosts();
             } else {
