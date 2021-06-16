@@ -13,4 +13,12 @@ public class DataValidator {
     public boolean emailPswdIsValid(String email, String password) {
         return (emailPattern.matcher(email).matches() && pswdPattern.matcher(password).matches());
     }
+
+    public boolean emailIsValid(String email) {
+        return emailPattern.matcher(email).matches();
+    }
+
+    public boolean pswdIsValid (String pswd) {
+        return  pswdPattern.matcher(pswd).matches();
+    }
 }

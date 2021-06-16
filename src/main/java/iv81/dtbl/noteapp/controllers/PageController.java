@@ -54,13 +54,20 @@ public class PageController {
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
         if (sessionInfo != null) {
             String email = sessionInfo.getPrincipal().toString();
-            User userFound = userRepo.findByEmail(email);
-            redirectView.setUrl("http://localhost:8088/loggedin/" + userFound.getId());
-            redirectView.setHosts();
+            if (dataValidator.emailIsValid(email)) {
+                User userFound = userRepo.findByEmail(email);
+                if (userFound != null) {
+                    redirectView.setUrl("http://localhost:8088/loggedin/" + userFound.getId());
+                } else {
+                    redirectView.setUrl("http://localhost:8088/home");
+                }
+            } else {
+                redirectView.setUrl("http://localhost:8088/home");
+            }
         } else {
             redirectView.setUrl("http://localhost:8088/home");
-            redirectView.setHosts();
         }
+        redirectView.setHosts();
         return redirectView;
     }
 
@@ -119,7 +126,7 @@ public class PageController {
             return redirectView;
         } else {
             User usertoUpdate = existing.get();
-            if (dataValidator.emailPswdIsValid(usertoUpdate.getEmail(), password)) {
+            if (dataValidator.pswdIsValid(password)) {
                 usertoUpdate.setPassHash(password);
                 usertoUpdate.setEnabled(true);
                 userService.saveUser(usertoUpdate);
