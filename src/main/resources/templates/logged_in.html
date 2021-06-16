@@ -131,21 +131,25 @@
         let title = [[${file.title}]];
         body = body.replaceAll("\\\"", "\"");
 
+        main_editor.setPanel('myNicPanel');
+        main_editor.addInstance('file_body');
+        main_editor.instanceById('file_body').setContent(body);
+
         if(rights === 'VIEW') {
             //show file_body and uneditable file_title
-            document.getElementById('file_body').innerText = body;
+            document.getElementById('file_body').contentEditable = false;
+            document.getElementById('file_title').contentEditable = false;
+            document.getElementById('myNicPanel').hidden = true;
 
         } else {
             //show file_body, edit panel
-            main_editor.setPanel('myNicPanel');
-            main_editor.addInstance('file_body');
-            main_editor.instanceById('file_body').setContent(body);
+
         }
 
         let title_tag = document.getElementById('file_title');
         title_tag.innerText = title;
 
-        if(rights === 'ALL') {
+        if(rights === 'ALL' || right === 'EDIT') {
             //editable file_title
             title_tag.contentEditable = "true";
         }

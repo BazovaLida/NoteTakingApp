@@ -3,12 +3,14 @@ package iv81.dtbl.noteapp.controllers;
 import iv81.dtbl.noteapp.email.events.registration.OnRegistrationCompleteEvent;
 import iv81.dtbl.noteapp.models.File;
 import iv81.dtbl.noteapp.models.User;
+import iv81.dtbl.noteapp.models.VerificationToken;
 import iv81.dtbl.noteapp.repositories.FileRepository;
 import iv81.dtbl.noteapp.repositories.UserRepository;
 import iv81.dtbl.noteapp.security.service.AppUserDetailsService;
 import iv81.dtbl.noteapp.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class UserFileController {
@@ -41,9 +41,15 @@ public class UserFileController {
         if (user.isPresent()) {
             User userFound = user.get();
             if (userFound.getLastUsedPageId() == null) {
-                File firstFile = new File("Untitled", userFound.getId(), null);
-                fileRepo.save(firstFile);
-                result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + firstFile.getId());
+                List<File> userFiles = fileRepo.findAllByAuthorId(uid);
+                if (userFiles.size() == 0) {
+                    File firstFile = new File("Untitled", userFound.getId(), null);
+                    fileRepo.save(firstFile);
+                    result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + firstFile.getId());
+                } else {
+                    File file = userFiles.get(0);
+                    result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + file.getId());
+                }
                 result.setHosts();
                 return result;
             } else {
@@ -86,6 +92,14 @@ public class UserFileController {
                 model.addAttribute("user", userFound);
                 model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
                 model.addAttribute("file", fileFound);
+                ArrayList<User> contributors = new ArrayList<>();
+                for (String userID : fileFound.getUsersIds()) {
+                    Optional<User> contributor = userRepo.findById(userID);
+                    if (contributor.isPresent()) {
+                        contributors.add(contributor.get());
+                    }
+                }
+                model.addAttribute("editors", contributors);
                 return "logged_in";
             } else if (fileFound.getUsersIds().contains(uid)) {
                 userFound.setLastUsedPageId(fid);
@@ -260,4 +274,39 @@ public class UserFileController {
             return "";
         }
     }
+
+    @GetMapping("/shared/{fid}")
+    @ResponseBody
+    public RedirectView goToShared(@PathVariable String fid, @RequestParam String token, HttpServletRequest request) {
+        Optional<File> file = fileRepo.findById(fid);
+        RedirectView redirectView = new RedirectView();
+        VerificationToken tokenFound = service.getVerificationToken(token);
+        if (file.isPresent() && tokenFound != null) {
+            File fileFound = file.get();
+            String sessionID = request.getSession().getId();
+            SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
+            Calendar cal = Calendar.getInstance();
+            if((tokenFound.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+                redirectView.setUrl("http://localhost:8088/err");
+                redirectView.setHosts();
+            }
+            if (sessionInfo != null) {
+                String email = sessionInfo.getPrincipal().toString();
+                User userFound = userRepo.findByEmail(email);
+                fileFound.addUser(userFound.getId());
+                fileRepo.save(fileFound);
+                redirectView.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + fid);
+                redirectView.setHosts();
+            } else {
+                redirectView.setUrl("http://localhost:8088/login");
+                redirectView.setHosts();
+            }
+            return redirectView;
+        } else {
+            redirectView.setUrl("http://localhost:8088/err");
+            redirectView.setHosts();
+        }
+        return redirectView;
+    }
+
 }

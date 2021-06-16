@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@Service("expireUsereService")
+@Service("expireUserService")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionService {
 
