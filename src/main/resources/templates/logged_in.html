@@ -28,7 +28,10 @@
             color: #1b5962;
             text-decoration: none;
         }
-        .btn {float: right;}
+        .btn {
+            float: right;
+            cursor: pointer;
+        }
         .nb {float: left;}
         .separator {
             display: inline-block;
@@ -68,7 +71,7 @@
             margin-left: 201px;
             margin-right: 96px;
         }
-        #myNicPanel {
+        #rightPanel {
             position: fixed;
             width: 95px;
             right: 0;
@@ -106,10 +109,23 @@
         .close {
             color: #aaaaaa;
             float: right;
-            font-size: 28px;
+            font-size: 20px;
             font-weight: bold;
         }
 
+        .editors {
+            font-size: 20px;
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            padding: 10px 3px;
+        }
+        #editors_text {
+            font-size: 20px;
+            text-align: center;
+            background-color: #1b5962;
+            color: white;
+        }
         .close:hover,
         .close:focus {
             color: #000;
@@ -119,6 +135,11 @@
     </style>
 </head>
 <body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet"/>
+
 <script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
@@ -140,12 +161,7 @@
             document.getElementById('file_body').contentEditable = false;
             document.getElementById('file_title').contentEditable = false;
             document.getElementById('myNicPanel').hidden = true;
-
-        } else {
-            //show file_body, edit panel
-
         }
-
         let title_tag = document.getElementById('file_title');
         title_tag.innerText = title;
 
@@ -228,7 +244,24 @@
         <div oninput="changed_text(id)" id="file_body" th:inline="html"></div>
     </div>
 
-    <div id="myNicPanel"></div>
+    <div id="rightPanel">
+        <div id="myNicPanel"></div>
+
+        <div th:if='${rights == "ALL"}'>
+            <div id="editors_text">
+                Editors:
+            </div>
+
+                <div th:each="editor: ${editors}">
+                    <a data-toggle="tooltip"
+                       th:attr="title=${editor.name}">
+                        <div class="editors" th:text="${editor.name}"></div>
+                        <span class="close" th:href="@{{file}/remove_user/{editor}(file=${file.id}, editor=${editor.id})}">
+                                &times;</span>
+                    </a>
+                </div>
+        </div>
+    </div>
     <div id="file_list">
         <div class = page_container>
             <a href="./new_page"> Create new page </a></div>
@@ -283,6 +316,11 @@
         document.execCommand("copy");
         document.body.removeChild(elem);
     }
+
+    $('a[data-toggle="tooltip"]').tooltip({
+        animated: 'fade',
+        placement: 'bottom',
+    });
 </script>
 
 </body>
