@@ -4,6 +4,7 @@ import iv81.dtbl.noteapp.email.events.pswdreset.OnPasswordResetEvent;
 import iv81.dtbl.noteapp.email.events.registration.OnRegistrationCompleteEvent;
 import iv81.dtbl.noteapp.models.User;
 import iv81.dtbl.noteapp.models.VerificationToken;
+import iv81.dtbl.noteapp.repositories.FileRepository;
 import iv81.dtbl.noteapp.repositories.UserRepository;
 import iv81.dtbl.noteapp.security.DataValidator;
 import iv81.dtbl.noteapp.security.service.AppUserDetailsService;
@@ -18,6 +19,7 @@ import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -37,6 +39,8 @@ public class PageController {
     private IUserService service;
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private FileRepository fileRepo;
     @Autowired
     private SessionRegistry sessionRegistry;
 
@@ -91,15 +95,19 @@ public class PageController {
     public String resetPswd() { return "pswd_reset_req"; }
 
     @GetMapping("/pswd_reset/{id}/passwordResetConfirm")
-    public String resetPswdPage(@PathVariable String id, @RequestParam String token) {
+    public String resetPswdPage(@PathVariable String id, @RequestParam String token, Model model) {
         VerificationToken verificationToken = service.getVerificationToken(token);
         if(verificationToken == null) {
-            return "bad_token";
+            model.addAttribute("msg", "Bad token. Please, make sure to use the appropriate link.");
+            model.addAttribute("loggedin", false);
+            return "errorpage";
         }
         User user = service.getUser(token);
         Calendar cal = Calendar.getInstance();
         if((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return "token_expired";
+            model.addAttribute("msg", "Token expired. Please, request a new link.");
+            model.addAttribute("loggedin", false);
+            return "errorpage";
         }
         return "pswd_reset_form";
     }
@@ -108,16 +116,26 @@ public class PageController {
     @ResponseBody
     public RedirectView log_res(@RequestParam String email, @RequestParam String username, @RequestParam String password, HttpServletRequest request) {
         User existing = userService.findUserByEmail(email);
+        RedirectView redirectView = new RedirectView();
         if (existing == null) {
             if (dataValidator.emailPswdIsValid(email, password)) {
                 User newUser = new User(username, email, password);
                 userService.saveUser(newUser);
                 String appUrl = request.getContextPath();
                 eventPublisher.publishEvent(new OnRegistrationCompleteEvent(newUser, request.getLocale(), appUrl));
-                return new RedirectView("login_form");
+                redirectView.setUrl("http://localhost:8088/login");
+                redirectView.setHosts();
+                return redirectView;
+            } else {
+                redirectView.setUrl("http://localhost:8088/register?error");
+                redirectView.setHosts();
+                return redirectView;
             }
+        } else {
+            redirectView.setUrl("http://localhost:8088/err?msg=userExists");
+            redirectView.setHosts();
+            return redirectView;
         }
-        return new RedirectView("err");
     }
 
     @PostMapping("/pswd_reset/{id}/passwordResetConfirm")
@@ -126,7 +144,7 @@ public class PageController {
         Optional<User> existing = userRepo.findById(id);
         RedirectView redirectView = new RedirectView();
         if (existing.get() == null) {
-            redirectView.setUrl("http://localhost:8088/err");
+            redirectView.setUrl("http://localhost:8088/err?msg=userNotFound");
             redirectView.setHosts();
             return redirectView;
         } else {
@@ -146,13 +164,18 @@ public class PageController {
     @ResponseBody
     public RedirectView pswd_reset(@RequestParam String email, HttpServletRequest request) {
         User existing = userService.findUserByEmail(email);
+        RedirectView redirectView = new RedirectView();
         if (existing == null) {
-            return new RedirectView("pswd_reset?err");
+            redirectView.setUrl("http://localhost:8088/err?msg=userNotFound");
+            redirectView.setHosts();
+            return redirectView;
         }
         eventPublisher.publishEvent(new OnPasswordResetEvent(existing, request.getLocale(), request.getContextPath()));
         existing.setEnabled(false);
         userRepo.save(existing);
-        return new RedirectView("login");
+        redirectView.setUrl("http://localhost:8088/login");
+        redirectView.setHosts();
+        return redirectView;
     }
 
     @GetMapping("/loggedin")
@@ -168,30 +191,67 @@ public class PageController {
             result.setHosts();
             return result;
         }
-        result.setUrl("http://localhost:8088/err");
+        result.setUrl("http://localhost:8088/err?msg=userNotFound");
         result.setHosts();
         return result;
     }
 
     @GetMapping("/err")
-    public String errPage() {
-        return "err";
+    public String errPage(@RequestParam String msg, Model model, HttpServletRequest request) {
+        if (msg.equals("userExists")) {
+            model.addAttribute("msg", "User already exists. Please, log in or register with another e-mail.");
+            model.addAttribute("loggedin", false);
+        } else if (msg.equals("userNotFound")) {
+            model.addAttribute("msg", "User not found. Please, log in again.");
+            model.addAttribute("loggedin", false);
+        } else if (msg.equals("badToken")) {
+            model.addAttribute("msg", "Bad token. Please, make sure to use the appropriate link.");
+            model.addAttribute("loggedin", false);
+        } else if (msg.equals("tokenExpired")) {
+            model.addAttribute("msg", "Token expired. Please, request a new link.");
+            model.addAttribute("loggedin", false);
+        } else if (msg.equals("fileNotFound")) {
+            SecurityContext sc = (SecurityContext) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+            Object pr = sc.getAuthentication().getPrincipal();
+            if (pr instanceof org.springframework.security.core.userdetails.User) {
+                org.springframework.security.core.userdetails.User userAuth = (org.springframework.security.core.userdetails.User) pr;
+                User user = userRepo.findByEmail(userAuth.getUsername());
+                model.addAttribute("msg", "File not found. Please, try another file.");
+                model.addAttribute("loggedin", true);
+                model.addAttribute("user", user);
+                model.addAttribute("pages", fileRepo.findAllByAuthorId(user.getId()));
+            } else {
+                model.addAttribute("msg", "User not found. Please, log in again.");
+                model.addAttribute("loggedin", false);
+            }
+        } else {
+            model.addAttribute("msg", "Unexpected error.");
+            model.addAttribute("loggedin", false);
+        }
+        return "errorpage";
     }
 
     @GetMapping("/registrationConfirm")
     public RedirectView confirmRegistration(@RequestParam String token) {
+        RedirectView result = new RedirectView();
         VerificationToken verificationToken = service.getVerificationToken(token);
         if(verificationToken == null) {
-            return new RedirectView("bad_token");
+            result.setUrl("http://localhost:8088/err?msg=badToken");
+            result.setHosts();
+            return result;
         }
         User user = service.getUser(token);
         Calendar cal = Calendar.getInstance();
         if((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return new RedirectView("token_expired");
+            result.setUrl("http://localhost:8088/err?msg=tokenExpired");
+            result.setHosts();
+            return result;
         }
         user.setEnabled(true);
         service.saveRegisteredUser(user);
-        return new RedirectView("login");
+        result.setUrl("http://localhost:8088/login");
+        result.setHosts();
+        return result;
     }
 
     @RequestMapping(value = "/images/{img}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)

@@ -65,20 +65,20 @@ public class UserFileController {
                                 File fileFound = lastUsedFile.get();
                                 result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + fileFound.getId());
                             } else {
-                                result.setUrl("http://localhost:8088/err");
+                                result.setUrl("http://localhost:8088/err?msg=fileNotFound");
                             }
                         }
                     } else {
                         result.setUrl("http://localhost:8088/loggedin/" + userAuth.getId());
                     }
                 } else {
-                    result.setUrl("http://localhost:8088/err");
+                    result.setUrl("http://localhost:8088/err?msg=userNotFound");
                 }
             } else {
-                result.setUrl("http://localhost:8088/err");
+                result.setUrl("http://localhost:8088/err?msg=userNotFound");
             }
         } else {
-            result.setUrl("http://localhost:8088/err");
+            result.setUrl("http://localhost:8088/err?msg=userNotFound");
         }
         result.setHosts();
         return result;
@@ -90,69 +90,80 @@ public class UserFileController {
         Optional<User> user = userRepo.findById(uid);
         String sessionID = request.getSession().getId();
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
-        if (!file.isPresent()) {
-            model.addAttribute("errmsg", "File not found.");
-            return "errorpage";
-        } else if (!user.isPresent()) {
-            model.addAttribute("errmsg", "User not found.");
-            return "errorpage";
-        } else if (sessionInfo == null || sessionInfo.isExpired()) {
+        if (sessionInfo == null || sessionInfo.isExpired()) {
             return "login";
         } else {
-            File fileFound = file.get();
-            User userFound = user.get();
             if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
                 User userAuth = userRepo.findByEmail(sessionInfo.getPrincipal().toString());
                 if (userAuth != null) {
-                    if (userAuth.getId().equals(userFound.getId())) {
-                        if (fileFound.getAuthorId().equals(uid)) {
-                            userFound.setLastUsedPageId(fid);
-                            userRepo.save(userFound);
-                            model.addAttribute("rights", "ALL");
-                            model.addAttribute("user", userFound);
-                            model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
-                            model.addAttribute("file", fileFound);
-                            ArrayList<User> contributors = new ArrayList<>();
-                            for (String userID : fileFound.getUsersIds()) {
-                                Optional<User> contributor = userRepo.findById(userID);
-                                if (contributor.isPresent()) {
-                                    contributors.add(contributor.get());
-                                }
-                            }
-                            model.addAttribute("editors", contributors);
-                            return "logged_in";
-                        } else if (fileFound.getUsersIds().contains(uid)) {
-                            userFound.setLastUsedPageId(fid);
-                            userRepo.save(userFound);
-                            model.addAttribute("rights", "EDIT");
-                            model.addAttribute("user", userFound);
-                            model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
-                            model.addAttribute("file", fileFound);
-                            return "logged_in";
-                        } else if (fileFound.isPublic()) {
-                            userFound.setLastUsedPageId(fid);
-                            userRepo.save(userFound);
-                            model.addAttribute("rights", "VIEW");
-                            model.addAttribute("user", userFound);
-                            model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
-                            model.addAttribute("file", fileFound);
-                            return "logged_in";
-                        } else {
-                            userFound.setLastUsedPageId(null);
-                            userRepo.save(userFound);
-                            model.addAttribute("user", userFound);
-                            model.addAttribute("author", userRepo.findById(fileFound.getAuthorId()).get().getName());
-                            return "no_access";
-                        }
+                    if (!file.isPresent()) {
+                        model.addAttribute("errmsg", "File not found. Please, try another file.");
+                        model.addAttribute("loggedin", true);
+                        model.addAttribute("user", userAuth);
+                        model.addAttribute("pages", fileRepo.findAllByAuthorId(userAuth.getId()));
+                        return "errorpage";
+                    } else if (!user.isPresent()) {
+                        model.addAttribute("errmsg", "User not found. Please, log in again.");
+                        model.addAttribute("loggedin", false);
+                        return "errorpage";
                     } else {
-                        String newURL = "forward:/loggedin/" + userAuth.getId() + "/" + fid;
-                        return newURL;
+                        File fileFound = file.get();
+                        User userFound = user.get();
+                        if (userAuth.getId().equals(userFound.getId())) {
+                            if (fileFound.getAuthorId().equals(uid)) {
+                                userFound.setLastUsedPageId(fid);
+                                userRepo.save(userFound);
+                                model.addAttribute("rights", "ALL");
+                                model.addAttribute("user", userFound);
+                                model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
+                                model.addAttribute("file", fileFound);
+                                ArrayList<User> contributors = new ArrayList<>();
+                                for (String userID : fileFound.getUsersIds()) {
+                                    Optional<User> contributor = userRepo.findById(userID);
+                                    if (contributor.isPresent()) {
+                                        contributors.add(contributor.get());
+                                    }
+                                }
+                                model.addAttribute("editors", contributors);
+                                return "logged_in";
+                            } else if (fileFound.getUsersIds().contains(uid)) {
+                                userFound.setLastUsedPageId(fid);
+                                userRepo.save(userFound);
+                                model.addAttribute("rights", "EDIT");
+                                model.addAttribute("user", userFound);
+                                model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
+                                model.addAttribute("file", fileFound);
+                                return "logged_in";
+                            } else if (fileFound.isPublic()) {
+                                userFound.setLastUsedPageId(fid);
+                                userRepo.save(userFound);
+                                model.addAttribute("rights", "VIEW");
+                                model.addAttribute("user", userFound);
+                                model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
+                                model.addAttribute("file", fileFound);
+                                return "logged_in";
+                            } else {
+                                String msg = "Looks like you don't have access to " + userRepo.findById(fileFound.getAuthorId()).get().getName() + "'s page.";
+                                model.addAttribute("msg", msg);
+                                model.addAttribute("loggedin", true);
+                                model.addAttribute("user", userFound);
+                                model.addAttribute("pages", fileRepo.findAllByAuthorId(userFound.getId()));
+                                return "errorpage";
+                            }
+                        } else {
+                            String newURL = "forward:/loggedin/" + userAuth.getId() + "/" + fid;
+                            return newURL;
+                        }
                     }
                 } else {
-                    return "forward:/err";
+                    model.addAttribute("msg", "User not found. Please, log in again.");
+                    model.addAttribute("loggedin", false);
+                    return "errorpage";
                 }
             } else {
-                return "forward:/err";
+                model.addAttribute("msg", "User not found. Please, log in again.");
+                model.addAttribute("loggedin", false);
+                return "errorpage";
             }
         }
     }
@@ -236,15 +247,17 @@ public class UserFileController {
                         result.setUrl("http://localhost:8088/loggedin/" + userAuth.getId());
                     }
                 } else {
-                    result.setUrl("http://localhost:8088/err");
+                    result.setUrl("http://localhost:8088/err?msg=userNotFound");
                 }
             } else {
-                result.setUrl("http://localhost:8088/err");
+                result.setUrl("http://localhost:8088/err?userNotFound");
             }
         } else if (sessionInfo == null || sessionInfo.isExpired()) {
             result.setUrl("http://localhost:8088/login");
+        } else if (!user.isPresent()) {
+            result.setUrl("http://localhost:8088/err?msg=userNotFound");
         } else {
-            result.setUrl("http://localhost:8088/err");
+            result.setUrl("http://localhost:8088/err?msg=fileNotFound");
         }
         result.setHosts();
         return result;
@@ -273,15 +286,17 @@ public class UserFileController {
                         result.setUrl("http://localhost:8088/loggedin/" + userAuth.getId());
                     }
                 } else {
-                    result.setUrl("http://localhost:8088/err");
+                    result.setUrl("http://localhost:8088/err?msg=userNotFound");
                 }
             } else {
-                result.setUrl("http://localhost:8088/err");
+                result.setUrl("http://localhost:8088/err?msg=userNotFound");
             }
         } else if (sessionInfo == null || sessionInfo.isExpired()) {
             result.setUrl("http://localhost:8088/login");
+        } else if (!user.isPresent()) {
+            result.setUrl("http://localhost:8088/err?msg=userNotFound");
         } else {
-            result.setUrl("http://localhost:8088/err");
+            result.setUrl("http://localhost:8088/err?msg=fileNotFound");
         }
         result.setHosts();
         return result;
@@ -310,15 +325,17 @@ public class UserFileController {
                         result.setUrl("http://localhost:8088/loggedin/" + userAuth.getId());
                     }
                 } else {
-                    result.setUrl("http://localhost:8088/err");
+                    result.setUrl("http://localhost:8088/err?msg=userNotFound");
                 }
             } else {
-                result.setUrl("http://localhost:8088/err");
+                result.setUrl("http://localhost:8088/err?msg=userNotFound");
             }
         } else if (sessionInfo == null || sessionInfo.isExpired()) {
             result.setUrl("http://localhost:8088/login");
+        } else if (!user.isPresent()){
+            result.setUrl("http://localhost:8088/err?msg=userNotFound");
         } else {
-            result.setUrl("http://localhost:8088/err");
+            result.setUrl("http://localhost:8088/err?msg=fileNotFound");
         }
         result.setHosts();
         return result;
@@ -336,19 +353,30 @@ public class UserFileController {
                 if (userAuth != null) {
                     if (userAuth.getId().equals(userFound.getId())) {
                         List<File> userFiles = fileRepo.findAllByAuthorId(uid);
+                        model.addAttribute("msg", "Page successfully deleted.");
+                        model.addAttribute("loggedin", true);
                         model.addAttribute("user", userFound);
                         model.addAttribute("pages", userFiles);
-                        return "page_deleted";
+                        return "errorpage";
                     } else {
                         String newURL = "forward:/loggedin/" + userAuth.getId();
                         return newURL;
                     }
+                } else {
+                    model.addAttribute("msg", "User not found. Please, log in again.");
+                    model.addAttribute("loggedin", false);
+                    return "errorpage";
                 }
+            } else {
+                model.addAttribute("msg", "User not found. Please, log in again.");
+                model.addAttribute("loggedin", false);
+                return "errorpage";
             }
-            return "errorpage";
         } else if (sessionInfo == null || sessionInfo.isExpired()){
             return "forward:/login";
         } else {
+            model.addAttribute("msg", "User not found. Please, log in again.");
+            model.addAttribute("loggedin", false);
             return "errorpage";
         }
     }
@@ -372,15 +400,15 @@ public class UserFileController {
                         result.setUrl("http://localhost:8088/loggedin/" + userAuth.getId());
                     }
                 } else {
-                    result.setUrl("http://localhost:8088/err");
+                    result.setUrl("http://localhost:8088/err?msg=userNotFound");
                 }
             } else {
-                result.setUrl("http://localhost:8088/err");
+                result.setUrl("http://localhost:8088/err?msg=userNotFound");
             }
         } else if (sessionInfo == null || sessionInfo.isExpired()){
             result.setUrl("http://localhost:8088/login");
         } else {
-            result.setUrl("http://localhost:8088/err");
+            result.setUrl("http://localhost:8088/err?msg=userNotFound");
         }
         result.setHosts();
         return result;
@@ -430,8 +458,10 @@ public class UserFileController {
                     redirectView.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + fid);
                 } else {
                     Calendar cal = Calendar.getInstance();
-                    if(tokenFound == null || (tokenFound.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-                        redirectView.setUrl("http://localhost:8088/err");
+                    if(tokenFound == null) {
+                        redirectView.setUrl("http://localhost:8088/err?msg=badToken");
+                    } else if((tokenFound.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+                        redirectView.setUrl("http://localhost:8088/err?msg=tokenExpired");
                     } else if (!fileFound.getAuthorId().equals(userFound.getId()) && !fileFound.getUsersIds().contains(userFound.getId())) {
                         fileFound.addUser(userFound.getId());
                         fileRepo.save(fileFound);
@@ -439,12 +469,12 @@ public class UserFileController {
                     }
                 }
             } else {
-                redirectView.setUrl("http://localhost:8088/err");
+                redirectView.setUrl("http://localhost:8088/err?msg=userNotFound");
             }
         } else if (sessionInfo == null || sessionInfo.isExpired()) {
             redirectView.setUrl("http://localhost:8088/login");
         } else {
-            redirectView.setUrl("http://localhost:8088/err");
+            redirectView.setUrl("http://localhost:8088/err?msg=fileNotFound");
         }
         redirectView.setHosts();
         return redirectView;
