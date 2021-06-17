@@ -193,9 +193,10 @@
 
         if(curr_id === "file_title"){
             edited_text = document.getElementById(curr_id).innerText;
-            if(edited_text.includes("\n")){
-                edited_text = edited_text.replaceAll("\n", " ");
+            if (edited_text.indexOf("\n") > -1) {
+                edited_text = edited_text.replaceAll("\n", "");
                 document.getElementById(curr_id).innerText = edited_text;
+                document.getElementById("file_body").focus();
             }
 
             if(rights === 'ALL') {
@@ -292,15 +293,6 @@
 </div>
 
 <script defer>
-    // // prevent Enter click in title
-    // document.getElementById("file_title").addEventListener("keyup", function(event) {
-    //     if (event.keyCode === 13) {
-    //         event.preventDefault();
-    //         document.getElementById("file_body").focus();
-    //         // ctrl.setSelectionRange(pos, pos);
-    //         // setCaretPosition(document.getElementById("file_body"), 0);
-    //     }
-    // });
 
     const popup = document.getElementById("sharePopup");
 
