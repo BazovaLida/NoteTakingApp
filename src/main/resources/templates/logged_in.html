@@ -53,6 +53,12 @@
             padding: 8px 0;
         }
 
+        #main_area {
+            margin-left: 201px;
+            margin-right: 96px;
+            overflow: auto;
+            white-space: nowrap;
+        }
         #file_area {
             display: block;
             float: right;
@@ -67,17 +73,13 @@
         #file_body {
             padding: 10px 20px;
         }
-        #file {
-            margin-left: 201px;
-            margin-right: 96px;
-        }
-        #rightPanel {
+        #right_panel {
             position: fixed;
             width: 95px;
             right: 0;
             clear-after: both;
         }
-        #file_list {
+        #left_panel {
             width: 200px;
             margin-left: -200px;
             /*border-radius: 15px;*/
@@ -157,6 +159,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
 
+    const axios = require("axios");
     const main_editor = new nicEditor();
     const rights = [[${rights}]];
 
@@ -197,7 +200,7 @@
             }
 
             if(rights === 'ALL') {
-                //editable file_title in file_list
+                //editable file_title in left list of files
                 if(edited_text.length > 20){
                     edited_text = edited_text.substr(0, 20) + "..."
                 }
@@ -223,10 +226,7 @@
 
 <div class="navbar">
     <a class="nb" th:text="${user.name}"></a>
-
-    <a class="btn" href="/logout">
-            Log out
-        </a>
+    <a class="btn" href="/logout">Log out</a>
 
     <div th:if='${rights == "ALL"}'>
         <span class="separator"></span>
@@ -250,14 +250,14 @@
     </div>
 </div>
 
-<div id="file">
+<div id="main_area">
     <div id="file_area">
         <div oninput="changed_text(id)" id="file_title" th:text="${file.title}">
         </div>
         <div oninput="changed_text(id)" id="file_body" th:inline="html"></div>
     </div>
 
-    <div id="rightPanel">
+    <div id="right_panel">
         <div id="myNicPanel"></div>
         <div th:if='${rights == "ALL"}'>
             <div id="editors_text">
@@ -273,13 +273,12 @@
                 </div>
         </div>
     </div>
-    <div id="file_list">
+    <div id="left_panel">
         <div class = page_container>
             <a href="./new_page"> Create new page </a></div>
         <div class = page_container th:each="page: ${pages}">
             <a th:href="@{./{id}(id=${page.id})}" th:text="${page.title}" th:id="${page.id}"><br></a>
         </div>
-        <div style=""></div>
     </div>
 
 </div>

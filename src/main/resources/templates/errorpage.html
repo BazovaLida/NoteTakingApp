@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Deleting page</title>
+  <title>Error page</title>
   <style>
+
     body {
       font-family: Verdana, Arial, Helvetica, sans-serif;
       margin: 0;
@@ -48,17 +49,17 @@
       padding: 8px 0;
     }
 
+    #main_area {
+      margin-left: 201px;
+      margin-right: 96px;
+      clear-after: both;
+    }
     #file_area {
       display: block;
       float: right;
       width: 100%;
     }
-    #file {
-      margin-left: 201px;
-      margin-right: 96px;
-      clear-after: both;
-    }
-    #file_list {
+    #left_panel {
       width: 200px;
       margin-left: -200px;
       background-color: #e7e7e7;
@@ -74,31 +75,36 @@
 <body>
 
 <div class="navbar">
-  <a class="nb" th:text="${user.name}"></a>
 
-  <a class="btn">
-    <form action="logout" method="post">
+  <div th:if='${loggedin}'>
+    <a class="nb" th:text="${user.name}"></a>
+    <a class="btn" href="/logout">
       Log out
-    </form></a>
-  <span class="separator"></span>
+    </a>
+  </div>
+  <div th:unless='${loggedin}'>
+    <a class="btn" href="/login">Log in</a>
+    <span class="separator"></span>
+    <a class="btn" href="/register">Registration</a>
+  </div>
+
 </div>
 
-<div id="file">
+<div id="main_area">
   <div id="file_area">
-
-    <div id="notification">
-      Selected page is deleted.<br>
-    </div>
-
-  </div>
-  <div id="file_list">
-    <div class = page_container>
-      <a href="./new_page"> Create new page </a></div>
-    <div class = page_container th:each="page: ${pages}">
-      <a th:href="@{./{id}(id=${page.id})}" th:text="${page.title}" th:id="${page.id}"><br></a>
-    </div>
+    <div id="notification" th:text="${msg}"></div>
   </div>
 
+  <div th:if='${loggedin}'>
+    <div id="left_panel">
+      <div class = page_container>
+        <a th:href="@{~/{user}/new_page(user=${user.id})}"> Create new page </a></div>
+      <div class = page_container th:each="page: ${pages}">
+        <a th:href="@{~/{user}/{page}(user=${user.id} page=${page.id})}" th:text="${page.title}" th:id="${page.id}"><br></a>
+      </div>
+    </div>
+  </div>
 </div>
+
 </body>
 </html>
