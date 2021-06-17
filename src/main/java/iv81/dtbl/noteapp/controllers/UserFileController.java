@@ -101,6 +101,8 @@ public class UserFileController {
                 User userAuth = userRepo.findByEmail(sessionInfo.getPrincipal().toString());
                 if (userAuth != null) {
                     if (!file.isPresent() || file.get().getAuthorId() == null) {
+                        userAuth.setLastUsedPageId(null);
+                        userRepo.save(userAuth);
                         model.addAttribute("msg", "File not found. Please, try another file.");
                         model.addAttribute("loggedin", true);
                         model.addAttribute("user", userAuth);

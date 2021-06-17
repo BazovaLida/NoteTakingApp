@@ -60,14 +60,16 @@ public class PageController {
     public RedirectView index(HttpServletRequest request) {
         RedirectView redirectView = new RedirectView();
         SecurityContext sc = (SecurityContext) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-        Object pr = sc.getAuthentication().getPrincipal();
-        if (pr instanceof org.springframework.security.core.userdetails.User) {
-            org.springframework.security.core.userdetails.User userAuth = (org.springframework.security.core.userdetails.User) pr;
-            sessionRegistry.registerNewSession(request.getSession().getId(), userAuth.getUsername());
-            User user = userRepo.findByEmail(userAuth.getUsername());
-            redirectView.setUrl("http://localhost:8088/loggedin/" + user.getId());
-            redirectView.setHosts();
-            return redirectView;
+        if (sc != null) {
+            Object pr = sc.getAuthentication().getPrincipal();
+            if (pr instanceof org.springframework.security.core.userdetails.User) {
+                org.springframework.security.core.userdetails.User userAuth = (org.springframework.security.core.userdetails.User) pr;
+                sessionRegistry.registerNewSession(request.getSession().getId(), userAuth.getUsername());
+                User user = userRepo.findByEmail(userAuth.getUsername());
+                redirectView.setUrl("http://localhost:8088/loggedin/" + user.getId());
+                redirectView.setHosts();
+                return redirectView;
+            }
         }
         String sessionID = request.getSession().getId();
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);

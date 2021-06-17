@@ -98,9 +98,9 @@
   <div th:if='${loggedin}'>
     <div id="left_panel">
       <div class = page_container>
-        <a th:href="@{~/loggedin/{user}/new_page(user=${user.id})}"> Create new page </a></div>
+        <a th:href="@{~/loggedin/{userid}/new_page(userid=${user.id})}"> Create new page </a></div>
       <div class = page_container th:each="page: ${pages}">
-        <a th:href="@{~/loggedin/{user}/{page}(user=${user.id} page=${page.id})}" th:text="${page.title}" th:id="${page.id}"><br></a>
+        <a th:href="@{~/loggedin/{userid}/{pageid}(userid=${user.id}, pageid=${page.id})}" th:text="${page.title}" th:id="${page.id}"><br></a>
       </div>
     </div>
   </div>
