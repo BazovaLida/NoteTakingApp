@@ -5,152 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home Page</title>
     <style>
-            body {
-                font-family: Verdana, Arial, Helvetica, sans-serif;
-                margin: 0;}
+        body {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;}
 
-            /* Style the header */
-            .header {
-                padding: 80px;
-                text-align: center;
-                background: #e0f9ff;
-                color: black;}
+        /* Style the header */
+        .header {
+            padding: 80px;
+            text-align: center;
+            background: #e0f9ff;
+            color: black;}
 
-            .header h1 {
-                font-size: 40px;}
+        .header h1 {
+            font-size: 40px;}
 
-            /* Slideshow container */
-            .slideshow-container {
-                max-width: 1000px;
-                position: relative;
-                margin: auto;
-            }
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
 
-            /* Next & previous buttons */
-            .prev, .next {
-                cursor: pointer;
-                position: absolute;
-                top: 50%;
-                width: auto;
-                padding: 16px;
-                margin-top: -22px;
-                color: white;
-                font-weight: bold;
-                font-size: 18px;
-                transition: 0.6s ease;
-                border-radius: 0 3px 3px 0;
-                user-select: none;
-            }
+        /* Next & previous buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
 
-            /* Position the "next button" to the right */
-            .next {
-                right: 0;
-                border-radius: 3px 0 0 3px;
-            }
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
 
-            /* On hover, add a black background color with a little bit see-through */
-            .prev:hover, .next:hover {
-                background-color: rgba(0,0,0,0.8);
-            }
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
 
-            /* The dots/bullets/indicators */
-            .dot {
-                height: 15px;
-                width: 15px;
-                margin: 0 2px;
-                background-color: #bbb;
-                border-radius: 50%;
-                display: inline-block;
-                transition: background-color 0.6s ease;
-            }
-            .dot:hover {
-                background-color: #717171;
-            }
-            /* Fading animation */
-            .fade {
-                -webkit-animation-name: fade;
-                -webkit-animation-duration: 1.5s;
-                animation-name: fade;
-                animation-duration: 1.5s;
-            }
-            @-webkit-keyframes fade {
-                from {opacity: .4}
-                to {opacity: 1}
-            }
-            @keyframes fade {
-                from {opacity: .4}
-                to {opacity: 1}
-            }
+        /* The dots/bullets/indicators */
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+        .dot:hover {
+            background-color: #717171;
+        }
+        /* Fading animation */
+        .fade {
+            -webkit-animation-name: fade;
+            -webkit-animation-duration: 1.5s;
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
 
-            /* Navbar container */
-            .navbar {
-                overflow: hidden;
-                background-color: #3b7074;
-            }
+        /* Navbar container */
+        .navbar {
+            overflow: hidden;
+            background-color: #3b7074;
+        }
 
-            /* Links inside the navbar */
-            .navbar a {
-                float: right;
-                font-size: 16px;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-
-            /* The dropdown container */
-            .dropdown {
-                float: right;
-                overflow: hidden;
-            }
-
-            /* Dropdown button */
-            .dropdown .dropbtn {
-                font-size: 16px;
-                border: none;
-                outline: none;
-                color: white;
-                padding: 14px 16px;
-                background-color: inherit;
-                font-family: inherit; /* Important for vertical align on mobile phones */
-                margin: 0; /* Important for vertical align on mobile phones */
-            }
+        /* Links inside the navbar */
+        .navbar a {
+            float: right;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
 
         /* Add a background color to navbar links on hover */
-            .navbar a:hover, .dropdown:hover .dropbtn {
-                background-color: #8cbec6;
-            }
-
-            /* Dropdown content (hidden by default) */
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #f9f9f9;
-                opacity: 0.7;
-                min-width: 160px;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                z-index: 1;
-            }
-
-            /* Links inside the dropdown */
-            .dropdown-content a {
-                float: none;
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-                text-align: left;
-            }
-
-            /* Add a grey background color to dropdown links on hover */
-            .dropdown-content a:hover {
-                background-color: #dddddd;
-            }
-
-            /* Show the dropdown menu on hover */
-            .dropdown:hover .dropdown-content {
-                display: block;
-            }
+        .navbar a:hover {
+            background-color: #8cbec6;
+        }
     </style>
 </head>
 <body>
@@ -160,16 +103,6 @@
 </div>
 
 <div class="navbar">
-    <div class="dropdown">
-        <button class="dropbtn">Download
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            <a href="../downloaded_file.txt" download>Windows</a>
-            <a href="../downloaded_file.txt" download>Linux</a>
-            <a href="../downloaded_file.txt" download>Mac OS</a>
-        </div>
-    </div>
     <a href="/login">Log in</a>
     <a href="/register">Registration</a>
 </div>
