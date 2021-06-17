@@ -38,12 +38,12 @@ public class File {
     private ArrayList<File> children;
 
     public File() {}
-    public File(String Ntitle, String auth, String NpId) {
+    public File(String Ntitle, String Nbody, String auth, String NpId) {
         this.title = Ntitle;
         this.isPublic = false;
         this.authorId = auth;
         this.usersIds = new ArrayList<>();
-        this.body = "";
+        this.body = Nbody;
         this.parentId = NpId;
     }
 

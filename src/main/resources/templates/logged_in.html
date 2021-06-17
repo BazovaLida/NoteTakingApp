@@ -264,13 +264,13 @@
                 Editors:
             </div>
 
-                <div th:each="editor: ${editors}">
-                    <a class="tooltip" data-toggle="tooltip" th:attr="title=${editor.name}">
-                        <div class="editors" th:text="${editor.name}"></div>
-                        <a class="close" th:href="@{{file}/remove_user/{editor}(file=${file.id}, editor=${editor.id})}">
-                                &times;</a>
-                    </a>
-                </div>
+            <div th:each="editor: ${editors}">
+                <a class="tooltip" data-toggle="tooltip" th:attr="title=${editor.name}">
+                    <div class="editors" th:text="${editor.name}"></div>
+                    <a class="close" th:href="@{{file}/remove_user/{editor}(file=${file.id}, editor=${editor.id})}">
+                            &times;</a>
+                </a>
+            </div>
         </div>
     </div>
     <div id="left_panel">

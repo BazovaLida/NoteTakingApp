@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Controller
@@ -53,7 +57,13 @@ public class UserFileController {
                             if (userFound.getLastUsedPageId() == null) {
                                 List<File> userFiles = fileRepo.findAllByAuthorId(uid);
                                 if (userFiles.size() == 0) {
-                                    File firstFile = new File("Untitled", userFound.getId(), null);
+                                    String fileBody;
+                                    try {
+                                        fileBody = new String(Files.readAllBytes(Paths.get("src/main/resources/body_template.txt")));
+                                    } catch (IOException e){
+                                        fileBody = " ";
+                                    }
+                                    File firstFile = new File("Untitled", fileBody, userFound.getId(), null);
                                     fileRepo.save(firstFile);
                                     result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + firstFile.getId());
                                 } else {
@@ -390,7 +400,7 @@ public class UserFileController {
     }
 
     @GetMapping("/loggedin/{uid}/new_page")
-    public RedirectView new_page(@PathVariable String uid, HttpServletRequest request) {
+    public RedirectView new_page(@PathVariable String uid, HttpServletRequest request){
         RedirectView result = new RedirectView();
         Optional<User> user = userRepo.findById(uid);
         String sessionID = request.getSession().getId();
@@ -401,7 +411,7 @@ public class UserFileController {
                 User userAuth = userRepo.findByEmail(sessionInfo.getPrincipal().toString());
                 if (userAuth != null) {
                     if (userAuth.getId().equals(userFound.getId())) {
-                        File newFile = new File("Untitled", userFound.getId(), null);
+                        File newFile = new File("Untitled", " ", userFound.getId(), null);
                         fileRepo.save(newFile);
                         result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + newFile.getId());
                     } else {
