@@ -43,7 +43,6 @@ public class File {
         this.isPublic = false;
         this.authorId = auth;
         this.usersIds = new ArrayList<>();
-        this.usersIds.add(auth);
         this.body = "";
         this.parentId = NpId;
     }
