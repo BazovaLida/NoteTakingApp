@@ -132,11 +132,24 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .tooltip.fade.bottom {
+            width: 120px;
+            background-color: rgba(0, 0, 0, 0.66);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            z-index: 1;
+            top: 100%;
+            left: 50%;
+            margin-left: -60px;
+        }
     </style>
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"/>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet"/>
 
@@ -246,15 +259,13 @@
 
     <div id="rightPanel">
         <div id="myNicPanel"></div>
-
         <div th:if='${rights == "ALL"}'>
             <div id="editors_text">
                 Editors:
             </div>
 
                 <div th:each="editor: ${editors}">
-                    <a data-toggle="tooltip"
-                       th:attr="title=${editor.name}">
+                    <a class="tooltip" data-toggle="tooltip" th:attr="title=${editor.name}">
                         <div class="editors" th:text="${editor.name}"></div>
                         <span class="close" th:href="@{{file}/remove_user/{editor}(file=${file.id}, editor=${editor.id})}">
                                 &times;</span>
@@ -308,8 +319,8 @@
     }
 
     function copyShareLink(){
-        var link = document.getElementById("shareLink").innerText;
-        var elem = document.createElement("textarea");
+        let link = document.getElementById("shareLink").innerText;
+        let elem = document.createElement("textarea");
         document.body.appendChild(elem);
         elem.value = link;
         elem.select();
