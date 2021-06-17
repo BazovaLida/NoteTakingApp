@@ -266,8 +266,8 @@
                 <div th:each="editor: ${editors}">
                     <a class="tooltip" data-toggle="tooltip" th:attr="title=${editor.name}">
                         <div class="editors" th:text="${editor.name}"></div>
-                        <span class="close" th:href="@{{file}/remove_user/{editor}(file=${file.id}, editor=${editor.id})}">
-                                &times;</span>
+                        <a class="close" th:href="@{{file}/remove_user/{editor}(file=${file.id}, editor=${editor.id})}">
+                                &times;</a>
                     </a>
                 </div>
         </div>
