@@ -45,37 +45,41 @@ public class UserFileController {
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
         if (user.isPresent()) {
             User userFound = user.get();
-            if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
-                User userAuth = userRepo.findByEmail(sessionInfo.getPrincipal().toString());
-                if (userAuth != null) {
-                    if (userAuth.getId().equals(userFound.getId())) {
-                        if (userFound.getLastUsedPageId() == null) {
-                            List<File> userFiles = fileRepo.findAllByAuthorId(uid);
-                            if (userFiles.size() == 0) {
-                                File firstFile = new File("Untitled", userFound.getId(), null);
-                                fileRepo.save(firstFile);
-                                result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + firstFile.getId());
+            if (sessionInfo != null && !sessionInfo.isExpired()) {
+                if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
+                    User userAuth = userRepo.findByEmail(sessionInfo.getPrincipal().toString());
+                    if (userAuth != null) {
+                        if (userAuth.getId().equals(userFound.getId())) {
+                            if (userFound.getLastUsedPageId() == null) {
+                                List<File> userFiles = fileRepo.findAllByAuthorId(uid);
+                                if (userFiles.size() == 0) {
+                                    File firstFile = new File("Untitled", userFound.getId(), null);
+                                    fileRepo.save(firstFile);
+                                    result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + firstFile.getId());
+                                } else {
+                                    File file = userFiles.get(0);
+                                    result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + file.getId());
+                                }
                             } else {
-                                File file = userFiles.get(0);
-                                result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + file.getId());
+                                Optional<File> lastUsedFile = fileRepo.findById(userFound.getLastUsedPageId());
+                                if (lastUsedFile.isPresent()) {
+                                    File fileFound = lastUsedFile.get();
+                                    result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + fileFound.getId());
+                                } else {
+                                    result.setUrl("http://localhost:8088/err?msg=fileNotFound");
+                                }
                             }
                         } else {
-                            Optional<File> lastUsedFile = fileRepo.findById(userFound.getLastUsedPageId());
-                            if (lastUsedFile.isPresent()) {
-                                File fileFound = lastUsedFile.get();
-                                result.setUrl("http://localhost:8088/loggedin/" + userFound.getId() + "/" + fileFound.getId());
-                            } else {
-                                result.setUrl("http://localhost:8088/err?msg=fileNotFound");
-                            }
+                            result.setUrl("http://localhost:8088/loggedin/" + userAuth.getId());
                         }
                     } else {
-                        result.setUrl("http://localhost:8088/loggedin/" + userAuth.getId());
+                        result.setUrl("http://localhost:8088/err?msg=userNotFound");
                     }
                 } else {
                     result.setUrl("http://localhost:8088/err?msg=userNotFound");
                 }
             } else {
-                result.setUrl("http://localhost:8088/err?msg=userNotFound");
+                result.setUrl("http://localhost:8088/login");
             }
         } else {
             result.setUrl("http://localhost:8088/err?msg=userNotFound");
@@ -91,19 +95,19 @@ public class UserFileController {
         String sessionID = request.getSession().getId();
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
         if (sessionInfo == null || sessionInfo.isExpired()) {
-            return "login";
+            return "forward:/login";
         } else {
             if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
                 User userAuth = userRepo.findByEmail(sessionInfo.getPrincipal().toString());
                 if (userAuth != null) {
-                    if (!file.isPresent()) {
-                        model.addAttribute("errmsg", "File not found. Please, try another file.");
+                    if (!file.isPresent() || file.get().getAuthorId() == null) {
+                        model.addAttribute("msg", "File not found. Please, try another file.");
                         model.addAttribute("loggedin", true);
                         model.addAttribute("user", userAuth);
                         model.addAttribute("pages", fileRepo.findAllByAuthorId(userAuth.getId()));
                         return "errorpage";
                     } else if (!user.isPresent()) {
-                        model.addAttribute("errmsg", "User not found. Please, log in again.");
+                        model.addAttribute("msg", "User not found. Please, log in again.");
                         model.addAttribute("loggedin", false);
                         return "errorpage";
                     } else {
@@ -201,7 +205,7 @@ public class UserFileController {
         Optional<User> user = userRepo.findById(uid);
         String sessionID = request.getSession().getId();
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
-        if (file.isPresent() && user.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
+        if (file.isPresent() && file.get().getAuthorId() != null && user.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
             File fileFound = file.get();
             User userFound = user.get();
             if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
@@ -227,7 +231,7 @@ public class UserFileController {
         String sessionID = request.getSession().getId();
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
         RedirectView result = new RedirectView();
-        if (file.isPresent() && user.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
+        if (file.isPresent() && file.get().getAuthorId() != null && user.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
             File fileFound = file.get();
             User userFound = user.get();
             if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
@@ -270,7 +274,7 @@ public class UserFileController {
         String sessionID = request.getSession().getId();
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
         RedirectView result = new RedirectView();
-        if (file.isPresent() && user.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
+        if (file.isPresent() && file.get().getAuthorId() != null && user.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
             File fileFound = file.get();
             User userFound = user.get();
             if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
@@ -309,7 +313,7 @@ public class UserFileController {
         String sessionID = request.getSession().getId();
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
         RedirectView result = new RedirectView();
-        if (file.isPresent() && user.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
+        if (file.isPresent() && file.get().getAuthorId() != null && user.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
             File fileFound = file.get();
             User userFound = user.get();
             if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
@@ -353,6 +357,8 @@ public class UserFileController {
                 if (userAuth != null) {
                     if (userAuth.getId().equals(userFound.getId())) {
                         List<File> userFiles = fileRepo.findAllByAuthorId(uid);
+                        userAuth.setLastUsedPageId(null);
+                        userRepo.save(userAuth);
                         model.addAttribute("msg", "Page successfully deleted.");
                         model.addAttribute("loggedin", true);
                         model.addAttribute("user", userFound);
@@ -421,7 +427,7 @@ public class UserFileController {
         Optional<User> user = userRepo.findById(uid);
         String sessionID = request.getSession().getId();
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
-        if (file.isPresent() && user.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
+        if (file.isPresent() && file.get().getAuthorId() != null && user.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
             File fileFound = file.get();
             User userFound = user.get();
             if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
@@ -449,7 +455,7 @@ public class UserFileController {
         String sessionID = request.getSession().getId();
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
         VerificationToken tokenFound = service.getVerificationToken(token);
-        if (file.isPresent() && sessionInfo != null && !sessionInfo.isExpired()) {
+        if (file.isPresent() && file.get().getAuthorId() != null && sessionInfo != null && !sessionInfo.isExpired()) {
             File fileFound = file.get();
             String email = sessionInfo.getPrincipal().toString();
             if (dataValidator.emailIsValid(email)) {
@@ -478,5 +484,49 @@ public class UserFileController {
         }
         redirectView.setHosts();
         return redirectView;
+    }
+
+    @GetMapping("/loggedin/{uid}/{fid}/remove_user/{edid}")
+    public RedirectView remove_editor(@PathVariable String uid, @PathVariable String fid, @PathVariable String edid, HttpServletRequest request) {
+        Optional<User> user = userRepo.findById(uid);
+        Optional<File> file = fileRepo.findById(fid);
+        Optional<User> editor = userRepo.findById(edid);
+        RedirectView result = new RedirectView();
+        SessionInformation sessionInfo = sessionRegistry.getSessionInformation(request.getSession().getId());
+        if (sessionInfo != null && !sessionInfo.isExpired()) {
+            if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
+                User userAuth = userRepo.findByEmail(sessionInfo.getPrincipal().toString());
+                if (userAuth != null) {
+                    if (user.isPresent() && editor.isPresent() && file.isPresent() && file.get().getAuthorId() != null) {
+                        User userFound = user.get();
+                        File fileFound = file.get();
+                        User editorFound = editor.get();
+                        if (userAuth.getId().equals(userFound.getId())) {
+                            if (fileFound.getAuthorId().equals(userAuth.getId())) {
+                                fileFound.removeUser(editorFound.getId());
+                                fileRepo.save(fileFound);
+                            }
+                            String newURL = "http://localhost:8088/loggedin/" + userAuth.getId() + "/" + fileFound.getId();
+                            result.setUrl(newURL);
+                        } else {
+                            String newURL = "http://localhost:8088/loggedin/" + userAuth.getId();
+                            result.setUrl(newURL);
+                        }
+                    } else if (!file.isPresent() || file.get().getAuthorId() == null) {
+                        result.setUrl("http://localhost:8088/err?msg=fileNotFound");
+                    } else {
+                        result.setUrl("http://localhost:8088/err?msg=userNotFound");
+                    }
+                } else {
+                    result.setUrl("http://localhost:8088/err?msg=userNotFound");
+                }
+            } else {
+                result.setUrl("http://localhost:8088/err?msg=userNotFound");
+            }
+        } else {
+            result.setUrl("http://localhost:8088/login");
+        }
+        result.setHosts();
+        return result;
     }
 }
