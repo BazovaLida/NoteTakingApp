@@ -95,7 +95,7 @@ public class UserFileController {
         String sessionID = request.getSession().getId();
         SessionInformation sessionInfo = sessionRegistry.getSessionInformation(sessionID);
         if (sessionInfo == null || sessionInfo.isExpired()) {
-            return "forward:/login";
+            return "forward:/";
         } else {
             if (dataValidator.emailIsValid(sessionInfo.getPrincipal().toString())) {
                 User userAuth = userRepo.findByEmail(sessionInfo.getPrincipal().toString());
@@ -379,7 +379,7 @@ public class UserFileController {
                 return "errorpage";
             }
         } else if (sessionInfo == null || sessionInfo.isExpired()){
-            return "forward:/login";
+            return "forward:/";
         } else {
             model.addAttribute("msg", "User not found. Please, log in again.");
             model.addAttribute("loggedin", false);
