@@ -159,7 +159,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
 
-    const main_editor = new nicEditor();
+    const main_editor = new nicEditor({fullPanel : true});
     const rights = [[${rights}]];
 
     bkLib.onDomLoaded(function() {
