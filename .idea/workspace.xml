@@ -19,25 +19,22 @@
         <item name="GROUP_NODE:lida" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:lida" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:lida/be_dev" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b515cf0-77a9-4ef9-96ac-08c4ba3c12ae" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/config/EmailConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/72216709-d7ed-4b24-94ea-a0b3b033d3d6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/72216709-d7ed-4b24-94ea-a0b3b033d3d6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_bson_4_1_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongodb_driver_core_4_1_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongodb_driver_sync_4_1_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_mongodb_2_4_3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noteapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/noteapp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/NoteappApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/NoteappApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/RegistrationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/events/RegistrationListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/events/RegistrationListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/AppSequrityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/AppSequrityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/session/SessionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/session/SessionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/logged_in.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/logged_in.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,9 +45,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="HTML File" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -79,33 +76,30 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/templates" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/static" />
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/templates" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="NoteappApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="noteapp" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="iv81.dtbl.noteapp.NoteappApplication" />
@@ -139,6 +133,13 @@
       <workItem from="1618925095466" duration="342000" />
       <workItem from="1618926389157" duration="465000" />
       <workItem from="1618927686213" duration="9918000" />
+      <workItem from="1623498223110" duration="4017000" />
+      <workItem from="1623569701243" duration="2451000" />
+      <workItem from="1623574672982" duration="4306000" />
+      <workItem from="1623607791444" duration="270000" />
+      <workItem from="1623661377595" duration="134000" />
+      <workItem from="1623661532219" duration="15634000" />
+      <workItem from="1623760866685" duration="9879000" />
     </task>
     <servers />
   </component>
@@ -150,7 +151,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="lida/be_dev" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -166,91 +179,119 @@
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
     <state x="751" y="295" width="384" height="587" key="#com.intellij.ide.util.MemberChooser/0.29.1920.1171@0.29.1920.1171" timestamp="1618914061285" />
-    <state width="1116" height="579" key="GridCell.Tab.0.bottom" timestamp="1618941243492">
+    <state x="63" y="302" width="1730" height="981" key="DiffContextDialog" timestamp="1623575034068">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="579" key="GridCell.Tab.0.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1618941243492" />
-    <state width="1116" height="579" key="GridCell.Tab.0.center" timestamp="1618941243491">
+    <state x="63" y="302" width="1730" height="981" key="DiffContextDialog/0.29.1920.1171@0.29.1920.1171" timestamp="1623575034068" />
+    <state width="1878" height="392" key="GridCell.Tab.0.bottom" timestamp="1623779618070">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="579" key="GridCell.Tab.0.center/0.29.1920.1171@0.29.1920.1171" timestamp="1618941243491" />
-    <state width="1116" height="579" key="GridCell.Tab.0.left" timestamp="1618941243491">
+    <state width="1878" height="392" key="GridCell.Tab.0.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623779618070" />
+    <state width="1878" height="392" key="GridCell.Tab.0.center" timestamp="1623779618069">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="579" key="GridCell.Tab.0.left/0.29.1920.1171@0.29.1920.1171" timestamp="1618941243491" />
-    <state width="1116" height="579" key="GridCell.Tab.0.right" timestamp="1618941243492">
+    <state width="1878" height="392" key="GridCell.Tab.0.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623779618069" />
+    <state width="1878" height="392" key="GridCell.Tab.0.left" timestamp="1623779618069">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="579" key="GridCell.Tab.0.right/0.29.1920.1171@0.29.1920.1171" timestamp="1618941243492" />
-    <state width="1116" height="579" key="GridCell.Tab.1.bottom" timestamp="1618941243492">
+    <state width="1878" height="392" key="GridCell.Tab.0.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623779618069" />
+    <state width="1878" height="392" key="GridCell.Tab.0.right" timestamp="1623779618069">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="579" key="GridCell.Tab.1.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1618941243492" />
-    <state width="1116" height="579" key="GridCell.Tab.1.center" timestamp="1618941243492">
+    <state width="1878" height="392" key="GridCell.Tab.0.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623779618069" />
+    <state width="1878" height="392" key="GridCell.Tab.1.bottom" timestamp="1623779631963">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="579" key="GridCell.Tab.1.center/0.29.1920.1171@0.29.1920.1171" timestamp="1618941243492" />
-    <state width="1116" height="579" key="GridCell.Tab.1.left" timestamp="1618941243492">
+    <state width="1878" height="392" key="GridCell.Tab.1.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623779631963" />
+    <state width="1878" height="392" key="GridCell.Tab.1.center" timestamp="1623779631963">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="579" key="GridCell.Tab.1.left/0.29.1920.1171@0.29.1920.1171" timestamp="1618941243492" />
-    <state width="1116" height="579" key="GridCell.Tab.1.right" timestamp="1618941243492">
+    <state width="1878" height="392" key="GridCell.Tab.1.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623779631963" />
+    <state width="1878" height="392" key="GridCell.Tab.1.left" timestamp="1623779631963">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="579" key="GridCell.Tab.1.right/0.29.1920.1171@0.29.1920.1171" timestamp="1618941243492" />
-    <state width="1116" height="365" key="GridCell.Tab.2.bottom" timestamp="1618937651735">
+    <state width="1878" height="392" key="GridCell.Tab.1.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623779631963" />
+    <state width="1878" height="392" key="GridCell.Tab.1.right" timestamp="1623779631963">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="365" key="GridCell.Tab.2.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1618937651735" />
-    <state width="1116" height="365" key="GridCell.Tab.2.center" timestamp="1618937651733">
+    <state width="1878" height="392" key="GridCell.Tab.1.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623779631963" />
+    <state width="1878" height="392" key="GridCell.Tab.2.bottom" timestamp="1623779617893">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="365" key="GridCell.Tab.2.center/0.29.1920.1171@0.29.1920.1171" timestamp="1618937651733" />
-    <state width="1116" height="365" key="GridCell.Tab.2.left" timestamp="1618937651733">
+    <state width="1878" height="392" key="GridCell.Tab.2.bottom/0.29.1920.1171@0.29.1920.1171" timestamp="1623779617893" />
+    <state width="1878" height="392" key="GridCell.Tab.2.center" timestamp="1623779617893">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="365" key="GridCell.Tab.2.left/0.29.1920.1171@0.29.1920.1171" timestamp="1618937651733" />
-    <state width="1116" height="365" key="GridCell.Tab.2.right" timestamp="1618937651734">
+    <state width="1878" height="392" key="GridCell.Tab.2.center/0.29.1920.1171@0.29.1920.1171" timestamp="1623779617893" />
+    <state width="1878" height="392" key="GridCell.Tab.2.left" timestamp="1623779617893">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state width="1116" height="365" key="GridCell.Tab.2.right/0.29.1920.1171@0.29.1920.1171" timestamp="1618937651734" />
+    <state width="1878" height="392" key="GridCell.Tab.2.left/0.29.1920.1171@0.29.1920.1171" timestamp="1623779617893" />
+    <state width="1878" height="392" key="GridCell.Tab.2.right" timestamp="1623779617893">
+      <screen x="0" y="29" width="1920" height="1171" />
+    </state>
+    <state width="1878" height="392" key="GridCell.Tab.2.right/0.29.1920.1171@0.29.1920.1171" timestamp="1623779617893" />
     <state width="256" height="477" key="HiddenNamespacesPopup" timestamp="1618844971669">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
     <state width="256" height="477" key="HiddenNamespacesPopup/0.29.1920.1171@0.29.1920.1171" timestamp="1618844971669" />
-    <state x="679" y="221" width="934" height="688" key="Maven.ArtifactSearchDialog" timestamp="1618913790540">
+    <state x="679" y="221" width="934" height="688" key="Maven.ArtifactSearchDialog" timestamp="1623499711611">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state x="679" y="221" width="934" height="688" key="Maven.ArtifactSearchDialog/0.29.1920.1171@0.29.1920.1171" timestamp="1618913790540" />
-    <state x="725" y="237" width="1195" height="734" key="SettingsEditor" timestamp="1615805425224">
+    <state x="679" y="221" width="934" height="688" key="Maven.ArtifactSearchDialog/0.29.1920.1171@0.29.1920.1171" timestamp="1623499711611" />
+    <state x="725" y="237" width="1195" height="734" key="SettingsEditor" timestamp="1623661509916">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
-    <state x="725" y="237" width="1195" height="734" key="SettingsEditor/0.29.1920.1171@0.29.1920.1171" timestamp="1615805425224" />
+    <state x="725" y="237" width="1195" height="734" key="SettingsEditor/0.29.1920.1171@0.29.1920.1171" timestamp="1623661509916" />
     <state x="735" y="473" width="369" height="224" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1618931662032">
       <screen x="0" y="29" width="1920" height="1171" />
     </state>
     <state x="735" y="473" width="369" height="224" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.29.1920.1171@0.29.1920.1171" timestamp="1618931662032" />
+    <state x="1031" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1623662641104">
+      <screen x="0" y="29" width="1920" height="1171" />
+    </state>
+    <state x="1031" y="230" width="672" height="678" key="search.everywhere.popup/0.29.1920.1171@0.29.1920.1171" timestamp="1623662641104" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java</url>
-          <line>63</line>
-          <properties class="iv81.dtbl.noteapp.controllers.PageController" method="errPage">
+          <line>130</line>
+          <properties class="iv81.dtbl.noteapp.controllers.PageController">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/service/AppUserDetailsService.java</url>
-          <line>35</line>
-          <option name="timeStamp" value="7" />
+          <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java</url>
+          <line>136</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/PageController.java</url>
-          <line>70</line>
-          <option name="timeStamp" value="9" />
+          <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/security/service/AppUserDetailsService.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java</url>
+          <line>178</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/iv81/dtbl/noteapp/controllers/UserFileController.java</url>
+          <line>274</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

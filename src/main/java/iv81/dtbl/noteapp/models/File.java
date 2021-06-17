@@ -11,38 +11,56 @@ public class File {
     private String id;
 
     private String title;
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
     private String authorId;
     private ArrayList<String> usersIds;
-    private ArrayList<String> elements;
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    private boolean isPublic;
+
+    private String body;
     private String parentId;
     private ArrayList<File> children;
 
     public File() {}
-    public File(String Ntitle, String auth, String NpId) {
+    public File(String Ntitle, String Nbody, String auth, String NpId) {
         this.title = Ntitle;
+        this.isPublic = false;
         this.authorId = auth;
         this.usersIds = new ArrayList<>();
-        this.usersIds.add(auth);
-        this.elements = new ArrayList<>();
+        this.body = Nbody;
         this.parentId = NpId;
     }
 
     @Override
-    public String toString() { return String.format("User [id: %s, title: %s]"); }
+    public String toString() { return String.format("User [id: %s, title: %s]", id, title); }
 
     public String getId() {return this.id;}
     public String getTitle() {return this.title;}
     public ArrayList<String> getUsersIds() {return this.usersIds;}
-    public ArrayList<String> getElements() {return this.elements;}
+    public boolean isPublic() {return this.isPublic;}
+    public void setPublic(boolean isPublic) { this.isPublic = isPublic;}
 
     public void setTitle(String Ntitle) {this.title = Ntitle;}
     public void addUser(String Nuid) {this.usersIds.add(Nuid);}
     public void addUsers(ArrayList<String> Nuids) {this.usersIds.addAll(Nuids);}
     public void removeUser(String uid) {this.usersIds.remove(uid);}
     public void removeUsers(ArrayList<String> uids) {this.usersIds.removeAll(uids);}
-    public void addElement(String Nelem) {this.elements.add(Nelem);}
-    public void addElements(ArrayList<String> Nelems) { this.elements.addAll(Nelems);}
-    public void insertElement(int ind, String Nelem) { this.elements.add(ind, Nelem);}
 
 
 }

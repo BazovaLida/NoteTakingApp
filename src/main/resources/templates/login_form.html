@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+    <title>Note Making App</title>
+    <style>
+      body {
+              font-family: Arial, Helvetica, sans-serif;
+              background-color: #393e3e;}
+
+            * {box-sizing: border-box;}
+
+            /* Add padding to containers */
+            .container {
+              padding: 16px;
+              background-color: white;}
+
+            input[type=text], input[type=password] {
+              width: 100%;
+              padding: 15px;
+              margin: 5px 0 22px 0;
+              display: inline-block;
+              border: none;
+              background-color: #d0e2e3;}
+
+            input[type=text]:focus, input[type=password]:focus {
+              background-color: #c1c9c9;
+              outline: none;}
+
+            hr {
+              border: 1px solid #f1f1f1;
+              margin-bottom: 25px;}
+
+            .loginBtn {
+              background-color: #005a61;
+              color: white;
+              padding: 16px 20px;
+              margin: 8px 0;
+              border: none;
+              cursor: pointer;
+              width: 100%;
+              opacity: 0.9;}
+
+            .loginBtn:hover {opacity: 1;}
+
+            /* Add a blue text color to links */
+            a {color: dodgerblue;}
+
+            /* Set a grey background color and center the text of the "sign in" section */
+            .signin {
+              background-color: #f1f1f1;
+              text-align: center;}
+    </style>
+  </head>
+  <body>
+    <form method="post">
+      <div class="container">
+        <h1>Login</h1>
+        <p>Please fill in this form to log in.</p>
+        <hr>
+
+        <p>
+          <label for="email"><b>Email</b></label>
+        <p id="emailError" style="color:red;"></p>
+          <input type="text" placeholder="Enter Email" name="email" id="email"
+        onchange="checkEmail()" required></p>
+
+        <p>
+          <label for="psw"><b>Password</b></label>
+        <p id="password_Error" style="color:red;"></p>
+          <input type="password" placeholder="Enter Password" name="password" id="psw"
+        onchange="checkPassLength()" required> </p>
+
+        <p>
+          <input type="checkbox" name="remember-me" id="remember-me">
+          <label for="remember-me">Remember Me</label> </p>
+
+        <button class="loginBtn" id="login_btn" type="f">Log in</button>
+      </div>
+
+      <div class="container signin">
+        <p>Forgot your password? <a href="/pswd_reset">Reset password</a>.</p>
+        <p>Don't have an account? <a href="/register">Register</a>.</p>
+      </div>
+    </form>
+    <script>
+    var emailIsValid = false;
+    var passIsValid = false;
+
+      function checkEmail () {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const input = document.getElementById("email").value;
+
+        if(re.test(String(input).toLowerCase())){
+          emailIsValid = true;
+          document.getElementById('emailError').innerHTML = "";
+        } else{
+          document.getElementById('emailError').innerHTML = "Email is invalid.";
+        }
+        btnEnable();
+      }
+
+      function checkPassLength () {
+        const input = document.getElementById("psw");
+
+        var lowerCaseLetters = /[a-z]/g;
+        var capitalLetters = /[A-Z]/g;
+        var numbers = /[0-9]/g;
+        if(!input.value.match(lowerCaseLetters)){
+          var msg = "Password must include lower case letters.";
+          document.getElementById('password_Error').innerHTML = msg;
+        } else if(!input.value.match(capitalLetters)){
+          var msg = "Password must include capital letters.";
+          document.getElementById('password_Error').innerHTML = msg;
+        } else if(!input.value.match(numbers)){
+          var msg = "Password must include numbers.";
+          document.getElementById('password_Error').innerHTML = msg;
+        } else if(input.value.length < 6){
+          var msg = "Password must be at least 6 characters.";
+          document.getElementById('password_Error').innerHTML = msg;
+        } else if(input.value.length > 30){
+          var msg = "Password must be less than 30 characters.";
+          document.getElementById('password_Error').innerHTML = msg;
+        } else {
+          document.getElementById('password_Error').innerHTML = "";
+          passIsValid = true;
+        }
+        btnEnable();
+      }
+
+      function btnEnable(){
+          if(emailIsValid && passIsValid)
+            document.getElementById('login_btn').disabled = false;
+          else
+            document.getElementById('login_btn').disabled = true;
+      }
+    </script>
+  </body>
+</html>

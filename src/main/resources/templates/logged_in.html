@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editing page</title>
+    <style>
+        body {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            background-color: #e6e6e6;
+        }
+
+        /* Navbar container */
+        .navbar {
+            overflow: hidden;
+            background-color: #165a62;
+        }
+        .navbar a {
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        a {
+            font-size: 16px;
+            color: #1b5962;
+            text-decoration: none;
+        }
+        .btn {
+            float: right;
+            cursor: pointer;
+        }
+        .nb {float: left;}
+        .separator {
+            display: inline-block;
+            background: #dedede;
+            float: right;
+            height: 45px;
+            width: 1px;
+        }
+        /* Add a background color to navbar links on hover */
+        .btn:hover {
+            background-color: #d0e2e3;
+            color: black;
+        }
+        .page_container:hover {
+            background-color: #d0e2e3;
+        }
+        .page_container {
+            text-align: center;
+            padding: 8px 0;
+        }
+
+        #main_area {
+            margin-left: 201px;
+            margin-right: 96px;
+            /*overflow: auto;*/
+            /*white-space: nowrap;*/
+        }
+        #file_area {
+            display: block;
+            float: right;
+            width: 100%;
+            background-color: white;
+        }
+        #file_title {
+            align-content: center;
+            font-size: 26px;
+            padding: 8px 10px;
+            overflow: auto;
+        }
+        #file_body {
+            padding: 10px 20px;
+            overflow: auto;
+        }
+        #right_panel {
+            position: fixed;
+            width: 95px;
+            right: 0;
+            clear-after: both;
+        }
+        #left_panel {
+            width: 200px;
+            margin-left: -200px;
+            /*border-radius: 15px;*/
+        }
+
+        .share_window {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .share-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .editors {
+            font-size: 20px;
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            padding: 10px 3px;
+        }
+        #editors_text {
+            font-size: 20px;
+            text-align: center;
+            background-color: #1b5962;
+            color: white;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .tooltip.fade.bottom {
+            width: 120px;
+            background-color: rgba(0, 0, 0, 0.66);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            z-index: 1;
+            top: 100%;
+            left: 50%;
+            margin-left: -60px;
+        }
+    </style>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet"/>
+
+<script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    const main_editor = new nicEditor({fullPanel : true});
+    const rights = [[${rights}]];
+
+    bkLib.onDomLoaded(function() {
+        let body = [[${file.body}]];
+        let title = [[${file.title}]];
+        body = body.replaceAll("\\\"", "\"");
+
+        main_editor.setPanel('myNicPanel');
+        main_editor.addInstance('file_body');
+        main_editor.instanceById('file_body').setContent(body);
+
+        if(rights === 'VIEW') {
+            //show file_body and uneditable file_title
+            document.getElementById('file_body').contentEditable = false;
+            document.getElementById('file_title').contentEditable = false;
+            document.getElementById('myNicPanel').hidden = true;
+        }
+        let title_tag = document.getElementById('file_title');
+        title_tag.innerText = title;
+
+        if(rights === 'ALL') {
+            //editable file_title
+            title_tag.contentEditable = "true";
+        }
+        // document.getElementById([[${file.id}]]).innerText = title;
+    });
+
+    function changed_text(curr_id){
+        let edited_text;
+        let post_url;
+
+        if(curr_id === "file_title"){
+            edited_text = document.getElementById(curr_id).innerText;
+            if (edited_text.indexOf("\n") > -1) {
+                edited_text = edited_text.replaceAll("\n", "");
+                document.getElementById(curr_id).innerText = edited_text;
+                document.getElementById("file_body").focus();
+            }
+
+            if(rights === 'ALL') {
+                //editable file_title in left list of files
+                if(edited_text.length > 20){
+                    edited_text = edited_text.substr(0, 20) + "..."
+                }
+                document.getElementById([[${file.id}]]).innerText = edited_text;
+            }
+
+            post_url = window.location.href + '/title';
+
+        } else if(curr_id === "file_body"){
+            edited_text = main_editor.instanceById(curr_id).getContent();
+            post_url = window.location.href + '/body';
+        }
+
+        axios({
+            method: 'post',
+            url: post_url,
+            data: {
+                new_version: edited_text
+            }
+        });
+    }
+</script>
+
+<div class="navbar">
+    <a class="nb" th:text="${user.name}"></a>
+    <a class="btn" href="/logout">Log out</a>
+
+    <div th:if='${rights == "ALL"}'>
+        <span class="separator"></span>
+        <a class="btn" onclick="share()">
+            Share page</a>
+
+        <span class="separator"></span>
+        <a class="btn" th:href="@{{id}/delete(id=${file.id})}">
+            Delete page </a>
+
+        <div th:if='${file.isPublic}'>
+            <span class="separator"></span>
+            <a class="btn" th:href="@{{id}/make_private(id=${file.id})}">
+                Make private </a>
+        </div>
+        <div th:unless='${file.isPublic}'>
+            <span class="separator"></span>
+            <a class="btn" th:href="@{{id}/make_public(id=${file.id})}">
+                Make public </a>
+        </div>
+    </div>
+</div>
+
+<div id="main_area">
+    <div id="file_area">
+        <div oninput="changed_text(id)" id="file_title" th:text="${file.title}">
+        </div>
+        <div oninput="changed_text(id)" id="file_body" th:inline="html"></div>
+    </div>
+
+    <div id="right_panel">
+        <div id="myNicPanel"></div>
+        <div th:if='${rights == "ALL"}'>
+            <div id="editors_text">
+                Editors:
+            </div>
+
+            <div th:each="editor: ${editors}">
+                <a class="tooltip" data-toggle="tooltip" th:attr="title=${editor.name}">
+                    <div class="editors" th:text="${editor.name}"></div>
+                    <a class="close" th:href="@{{file}/remove_user/{editor}(file=${file.id}, editor=${editor.id})}">
+                            &times;</a>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="left_panel">
+        <div class = page_container>
+            <a href="./new_page"> Create new page </a></div>
+        <div class = page_container th:each="page: ${pages}">
+            <a th:href="@{./{id}(id=${page.id})}" th:text="${page.title}" th:id="${page.id}"><br></a>
+        </div>
+    </div>
+
+</div>
+
+<div id="sharePopup" class="share_window">
+    <div class="share-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <p id="share_text">Link to share with edit rights:</p>
+        <p id="shareLink"></p>
+        <button id="copyLinkBtn" onclick="copyShareLink()">Copy link</button>
+    </div>
+</div>
+
+<script defer>
+
+    const popup = document.getElementById("sharePopup");
+
+    // When the user clicks on (x), close the modal
+    function closePopup() {
+        popup.style.display = "none";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == popup) {
+            popup.style.display = "none";
+        }
+    }
+    function share(){
+        axios.get(window.location.href + '/share')
+            .then((response) => {
+                document.getElementById("shareLink").innerText = response.data;
+                popup.style.display = "block";
+            }, (error) => {
+                document.getElementById("share_text").innerText = "An error occurred";
+                document.getElementById("copyLinkBtn").style.display = "none";
+                popup.style.display = "block";
+            });
+    }
+
+    function copyShareLink(){
+        let link = document.getElementById("shareLink").innerText;
+        let elem = document.createElement("textarea");
+        document.body.appendChild(elem);
+        elem.value = link;
+        elem.select();
+        document.execCommand("copy");
+        document.body.removeChild(elem);
+    }
+
+    $('a[data-toggle="tooltip"]').tooltip({
+        animated: 'fade',
+        placement: 'bottom',
+    });
+</script>
+
+</body>
+</html>

@@ -17,9 +17,10 @@ public class AppUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepo;
+    @Autowired
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
+
     public AppUserDetailsService(PasswordEncoder pE) {
         this.passwordEncoder = pE;
     }
@@ -35,7 +36,8 @@ public class AppUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepo.findByEmail(email);
         if(user != null) {
-            return buildUserForAuthentication(user, new ArrayList<GrantedAuthority>());
+            UserDetails userDetails = buildUserForAuthentication(user, new ArrayList<GrantedAuthority>());
+            return userDetails;
         } else {
             throw new UsernameNotFoundException("username not found");
         }

@@ -1,20 +1,27 @@
 package iv81.dtbl.noteapp.security;
 
+import iv81.dtbl.noteapp.security.handlers.SecurityErrorHandler;
 import iv81.dtbl.noteapp.security.service.AppUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-//import iv81.dtbl.noteapp.models.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
@@ -28,15 +35,28 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = pE;
     }
 
-    @Bean
-    public UserDetailsService mongoUserDetails() { return new AppUserDetailsService(passwordEncoder); }
+    /*@Bean
+    public AppUserDetailsService mongoUserService() { return new AppUserDetailsService(passwordEncoder); }*/
+    @Autowired
+    private AppUserDetailsService mongoUserService;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        UserDetailsService uDS = mongoUserDetails();
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Autowired
+    public void confGlobalAuthManager(AuthenticationManagerBuilder auth) throws Exception {
+        UserDetailsService uDS = mongoUserService;
         auth
                 .userDetailsService(uDS)
                 .passwordEncoder(passwordEncoder);
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
@@ -44,7 +64,7 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/login", "/register", "/err", "/registrationConfirm*").permitAll()
+                .antMatchers("/", "/home", "/images/**", "/login", "/register", "/err", "/pswd_reset/**", "/pswd_reset_form").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -62,18 +82,15 @@ public class AppSequrityConfig extends WebSecurityConfigurerAdapter {
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID", "remember-me")
-                    .logoutSuccessUrl("/");
+                    .logoutSuccessUrl("/")
+                .and()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                    .invalidSessionUrl("/logout")
+                    .maximumSessions(3)
+                    .maxSessionsPreventsLogin(false)
+                    .sessionRegistry(sessionRegistry())
+                .and()
+                .sessionAuthenticationFailureHandler(new SecurityErrorHandler());
     }
-
-//    @Override
-//    @Bean
-//    protected UserDetailsService userDetailsService() {
-//        UserDetails testUsr = User.builder()
-//                .username("test@test.com")
-//                .password(passwordEncoder.encode("1234"))
-//                .roles("test")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(testUsr);
-//    }
 }
